@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function NewCountry() {
+function CountryNew() {
     const [form, setForm] = useState({
         language_code: 'en',
         name: '',
@@ -142,4 +142,4 @@ function NewCountry() {
     )
 }
 
-export default NewCountry;
+export default CountryNew;

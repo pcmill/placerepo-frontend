@@ -1,15 +1,31 @@
-import { Route, Routes } from "react-router-dom";
-import NewCountry from "./pages/add-country/add-country";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import CountryNew from "./pages/country-new/country-new";
 import CountryDetails from "./pages/country-details/country-details";
+import CountryList from "./pages/country-list/country-list";
 import Home from "./pages/home/home";
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Home />
+  },
+  {
+    path: '/country',
+    element: <CountryList />
+  },
+  {
+    path: '/country/new',
+    element: <CountryNew />
+  },
+  {
+    path: '/country/:id',
+    element: <CountryDetails />
+  }
+]);
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/new/country" element={<NewCountry />} />
-      <Route path="/country/:id" element={<CountryDetails />} />
-    </Routes>
+    <RouterProvider router={router} />
   );
 }
 
