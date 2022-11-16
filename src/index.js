@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './app';
 import SidebarProvider from './contexts/sidebar-context';
-import Shell from './components/shell/shell';
+import Shell from './components/shell';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

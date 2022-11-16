@@ -3,7 +3,7 @@ import {
     HomeIcon,
     XMarkIcon
 } from '@heroicons/react/24/outline';
-import { SidebarContext } from '../../contexts/sidebar-context';
+import { SidebarContext } from '../contexts/sidebar-context';
 import { Fragment, useContext } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 

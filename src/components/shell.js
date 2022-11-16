@@ -1,5 +1,5 @@
-import Sidebar from "../sidebar/sidebar";
-import Topbar from "../topbar/topbar";
+import Sidebar from "./sidebar";
+import Topbar from "./topbar";
 
 function Shell(props) {
     return (
