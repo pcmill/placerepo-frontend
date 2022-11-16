@@ -1,15 +1,20 @@
 import {
     ClipboardDocumentListIcon,
+    GlobeAmericasIcon,
     HomeIcon,
+    MapIcon,
     XMarkIcon
 } from '@heroicons/react/24/outline';
 import { SidebarContext } from '../contexts/sidebar-context';
 import { Fragment, useContext } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
+import { NavLink } from 'react-router-dom';
 
 const navigation = [
-    { name: 'Home', href: '/', icon: HomeIcon, current: true },
-    { name: 'Queue', href: '/queue', icon: ClipboardDocumentListIcon, current: false }
+    { name: 'Home', href: '/', icon: HomeIcon },
+    { name: 'Continents', href: '/continent', icon: GlobeAmericasIcon },
+    { name: 'Countries', href: '/country', icon: MapIcon },
+    { name: 'Queue', href: '/queue', icon: ClipboardDocumentListIcon }
 ];
 
 function classNames(...classes) {
@@ -62,10 +67,12 @@ function Sidebar() {
                                             onClick={() => changeSidebarState(false)}
                                         >
                                             <span className="sr-only">Close sidebar</span>
+
                                             <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                         </button>
                                     </div>
                                 </Transition.Child>
+
                                 <div className="flex flex-shrink-0 items-center px-4">
                                     <img
                                         className="h-8 w-auto"
@@ -73,15 +80,15 @@ function Sidebar() {
                                         alt="Your Company"
                                     />
                                 </div>
+
                                 <div className="mt-5 h-0 flex-1 overflow-y-auto">
                                     <nav className="space-y-1 px-2">
                                         {navigation.map((item) => (
-                                            <a
+                                            <NavLink
                                                 key={item.name}
-                                                href={item.href}
-                                                className={classNames(
-                                                    item.current
-                                                        ? 'bg-gray-900 text-white'
+                                                to={item.href}
+                                                className={({ isActive }) => classNames(
+                                                    isActive ? 'bg-gray-900 text-white'
                                                         : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                                                     'group flex items-center px-2 py-2 text-base font-medium rounded-md'
                                                 )}
@@ -94,12 +101,13 @@ function Sidebar() {
                                                     aria-hidden="true"
                                                 />
                                                 {item.name}
-                                            </a>
+                                            </NavLink>
                                         ))}
                                     </nav>
                                 </div>
                             </Dialog.Panel>
                         </Transition.Child>
+
                         <div className="w-14 flex-shrink-0" aria-hidden="true">
                             {/* Dummy element to force sidebar to shrink to fit close icon */}
                         </div>
@@ -117,14 +125,16 @@ function Sidebar() {
                             alt="Your Company"
                         />
                     </div>
+
                     <div className="flex flex-1 flex-col overflow-y-auto">
                         <nav className="flex-1 space-y-1 px-2 py-4">
                             {navigation.map((item) => (
-                                <a
+                                <NavLink
                                     key={item.name}
-                                    href={item.href}
-                                    className={classNames(
-                                        item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                    to={item.href}
+                                    preventScrollReset={true}
+                                    className={({ isActive }) => classNames(
+                                        isActive ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                                         'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
                                     )}
                                 >
@@ -136,7 +146,7 @@ function Sidebar() {
                                         aria-hidden="true"
                                     />
                                     {item.name}
-                                </a>
+                                </NavLink>
                             ))}
                         </nav>
                     </div>

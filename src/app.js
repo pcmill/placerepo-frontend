@@ -5,31 +5,38 @@ import CountryList from "./pages/country-list";
 import Home from "./pages/home";
 import ContinentList from "./pages/continent-list";
 import ContinentDetails from "./pages/continent-details";
+import Shell from "./components/shell";
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />
-  },
-  {
-    path: '/continent',
-    element: <ContinentList />
-  },
-  {
-    path: '/continent/:id',
-    element: <ContinentDetails />
-  },
-  {
-    path: '/country',
-    element: <CountryList />
-  },
-  {
-    path: '/country/new',
-    element: <CountryNew />
-  },
-  {
-    path: '/country/:id',
-    element: <CountryDetails />
+    element: <Shell />,
+    children: [
+      {
+        path: '/',
+        element: <Home />
+      },
+      {
+        path: '/continent',
+        element: <ContinentList />
+      },
+      {
+        path: '/continent/:id',
+        element: <ContinentDetails />
+      },
+      {
+        path: '/country',
+        element: <CountryList />
+      },
+      {
+        path: '/country/new',
+        element: <CountryNew />
+      },
+      {
+        path: '/country/:id',
+        element: <CountryDetails />
+      }
+    ]
   }
 ]);
 
