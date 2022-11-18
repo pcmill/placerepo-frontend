@@ -17,7 +17,7 @@ function CountryNew() {
 
         const fetchContinents = async () => {
 
-            const c = await fetch('http://localhost:8881/v1/continent', {
+            const c = await fetch(`${process.env.REACT_APP_BACKEND}/v1/continent`, {
                 headers: {
                     'x-api-key': apiKey
                 }

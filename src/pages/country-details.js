@@ -11,7 +11,7 @@ function CountryDetails() {
 
     useEffect(() => {
         const fetchCountry = async () => {
-            const data = await fetch(`http://localhost:8881/v1/country/${id}`, {
+            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/country/${id}`, {
                 headers: {
                     'x-api-key': apiKey
                 }

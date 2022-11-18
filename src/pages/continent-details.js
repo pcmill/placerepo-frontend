@@ -10,7 +10,7 @@ function ContinentDetails() {
 
     useEffect(() => {
         const fetchContinent = async () => {
-            const data = await fetch(`http://localhost:8881/v1/continent/${id}`, {
+            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/continent/${id}`, {
                 headers: {
                     'x-api-key': apiKey
                 }

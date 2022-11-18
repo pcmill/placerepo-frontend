@@ -7,7 +7,7 @@ function CountryList() {
 
     useEffect(() => {
         const fetchCountries = async () => {
-            const data = await fetch(`http://localhost:8881/v1/country`, {
+            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/country`, {
                 headers: {
                     'x-api-key': apiKey
                 }
