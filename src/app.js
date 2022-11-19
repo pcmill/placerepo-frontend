@@ -6,6 +6,8 @@ import Home from "./pages/home";
 import ContinentList from "./pages/continent-list";
 import ContinentDetails from "./pages/continent-details";
 import Shell from "./components/shell";
+import CountryWrapper from "./pages/country-wrapper";
+import ContinentWrapper from "./pages/continent-wrapper";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +24,13 @@ const router = createBrowserRouter([
       },
       {
         path: '/continent/:id',
-        element: <ContinentDetails />
+        element: <ContinentWrapper />,
+        children: [
+          {
+            path: '/continent/:id',
+            element: <ContinentDetails />
+          }
+        ]
       },
       {
         path: '/country',
@@ -34,7 +42,13 @@ const router = createBrowserRouter([
       },
       {
         path: '/country/:id',
-        element: <CountryDetails />
+        element: <CountryWrapper />,
+        children: [
+          {
+            path: '/country/:id',
+            element: <CountryDetails />
+          }
+        ]
       }
     ]
   }

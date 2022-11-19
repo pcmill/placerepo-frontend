@@ -1,12 +1,13 @@
 import { LanguageIcon } from "@heroicons/react/24/outline";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { ContinentContext } from "../contexts/continent-context";
 
 function ContinentDetails() {
+    const { id } = useParams();
     const apiKey = localStorage.getItem('apiKey');
-    const [continent, setContinent] = useState(null);
+    const { continent, setContinent } = useContext(ContinentContext);
     const [defaultTranslation, setDefaultTranslations] = useState(null);
-    let { id } = useParams();
 
     useEffect(() => {
         const fetchContinent = async () => {
@@ -24,9 +25,9 @@ function ContinentDetails() {
         }
 
         fetchContinent();
-    }, [id, apiKey]);
+    }, [id, apiKey, setContinent]);
 
-    if (continent) {
+    if (continent && defaultTranslation) {
         return (
             <>
                 <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
@@ -55,9 +56,9 @@ function ContinentDetails() {
 
                                         <div className="mt-2 sm:flex sm:justify-between">
                                             <div className="sm:flex">
-                                                <p className="flex items-center text-sm text-gray-500">
-                                                    <LanguageIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                                                    {tr.language_code}
+                                                <p className="flex items-center text-sm text-gray-800">
+                                                    <LanguageIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-500" aria-hidden="true" />
+                                                    {tr.language_code} {tr.language && <span className="ml-1 text-gray-500">({tr.language})</span>}
                                                 </p>
                                             </div>
                                         </div>

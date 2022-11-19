@@ -1,13 +1,14 @@
 import { LanguageIcon } from "@heroicons/react/24/outline";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PageHeading from "../components/page-heading";
+import { CountryContext } from "../contexts/country-context";
 
 function CountryDetails() {
+    const { id } = useParams();
+    const { country, setCountry } = useContext(CountryContext);
     const apiKey = localStorage.getItem('apiKey');
-    const [country, setCountry] = useState(null);
     const [defaultTranslation, setDefaultTranslations] = useState(null);
-    let { id } = useParams();
 
     useEffect(() => {
         const fetchCountry = async () => {
@@ -25,9 +26,9 @@ function CountryDetails() {
         }
 
         fetchCountry();
-    }, [id, apiKey]);
+    }, [id, apiKey, setCountry]);
 
-    if (country) {
+    if (country && defaultTranslation) {
         return (
             <>
                 <PageHeading name={defaultTranslation.name} country_code={country.country_code} continent={country.continent_name} />
@@ -54,9 +55,9 @@ function CountryDetails() {
 
                                         <div className="mt-2 sm:flex sm:justify-between">
                                             <div className="sm:flex">
-                                                <p className="flex items-center text-sm text-gray-500">
-                                                    <LanguageIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                                                    {tr.language_code}
+                                                <p className="flex items-center text-sm text-gray-700">
+                                                    <LanguageIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-500" aria-hidden="true" />
+                                                    {tr.language_code} {tr.language && <span className="ml-1 text-gray-500">({tr.language})</span>}
                                                 </p>
                                             </div>
                                         </div>
