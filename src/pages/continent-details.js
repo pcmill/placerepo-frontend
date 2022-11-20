@@ -1,12 +1,15 @@
-import { LanguageIcon } from "@heroicons/react/24/outline";
-import { useContext, useEffect, useState } from "react";
+import { Transition } from "@headlessui/react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Translation from "../components/translation";
+import TranslationNew from "../components/translation-new";
 import { ContinentContext } from "../contexts/continent-context";
 
 function ContinentDetails() {
     const { id } = useParams();
     const apiKey = localStorage.getItem('apiKey');
     const { continent, setContinent } = useContext(ContinentContext);
+    const [addingTranslation, setAddingTranslation] = useState(false);
     const [defaultTranslation, setDefaultTranslations] = useState(null);
 
     useEffect(() => {
@@ -27,6 +30,12 @@ function ContinentDetails() {
         fetchContinent();
     }, [id, apiKey, setContinent]);
 
+    function updateTranslations(translation) {
+        const newContinent = { ...continent }
+        newContinent.translations.push(translation);
+        setContinent(newContinent);
+    }
+
     if (continent && defaultTranslation) {
         return (
             <>
@@ -34,36 +43,38 @@ function ContinentDetails() {
                     {defaultTranslation.name}
                 </h2>
 
-                <h2 className="mt-4 text-xl font-bold leading-7 text-gray-900 sm:truncate sm:tracking-tight">
-                    Translations
-                </h2>
+                <div className="flex mt-4 items-center">
+                    <h2 className="text-xl font-bold leading-7 text-gray-900 sm:truncate sm:tracking-tight">
+                        Translations
+                    </h2>
+
+                    <button
+                        onClick={() => setAddingTranslation(!addingTranslation)}
+                        type="button"
+                        className="ml-auto inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    >
+                        {addingTranslation && <span>Done</span>}
+                        {!addingTranslation && <span>Add translation</span>}
+                    </button>
+                </div>
 
                 <div className="mt-4 overflow-hidden bg-white shadow sm:rounded-md">
                     <ul className="divide-y divide-gray-200">
+                        <Transition
+                            show={addingTranslation}
+                            enter="transition-opacity duration-200"
+                            enterFrom="opacity-0"
+                            enterTo="opacity-100">
+                            <TranslationNew 
+                                placeholder="Africa" 
+                                entityId={{continent_id: id}}
+                                endpoint="/continent/translation"
+                                setEntity={(t) => updateTranslations(t)}/>
+                        </Transition>
+
                         {continent.translations.map((tr) => (
                             <li key={tr.id}>
-                                <a href="/" className="block hover:bg-gray-50">
-                                    <div className="px-4 py-4 sm:px-6">
-                                        <div className="flex items-center justify-between">
-                                            <p className="truncate text-sm font-medium text-indigo-600">{tr.name}</p>
-                                            
-                                            {tr.id === defaultTranslation.id && <div className="ml-2 flex flex-shrink-0">
-                                                <p className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                                                    default translation
-                                                </p>
-                                            </div>}
-                                        </div>
-
-                                        <div className="mt-2 sm:flex sm:justify-between">
-                                            <div className="sm:flex">
-                                                <p className="flex items-center text-sm text-gray-800">
-                                                    <LanguageIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-500" aria-hidden="true" />
-                                                    {tr.language_code} {tr.language && <span className="ml-1 text-gray-500">({tr.language})</span>}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
+                                <Translation translation={tr} defaultTranslation={tr.id === defaultTranslation.id} />
                             </li>
                         ))}
                     </ul>
