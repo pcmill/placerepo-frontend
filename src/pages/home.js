@@ -1,6 +1,10 @@
+import Map from "../components/map";
+
 function Home() {
     return (
-        <h1>Hallo</h1>
+        <div className="-px-8">
+            <Map />
+        </div>
     )
 }
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import PageLayout from "../components/page-layout";
 
 function CountryList() {
     const apiKey = localStorage.getItem('apiKey');
@@ -22,7 +23,7 @@ function CountryList() {
 
     if (countries) {
         return (
-            <>
+            <PageLayout>
                 <h2 className="text-xl font-bold leading-7 text-gray-900 sm:truncate sm:tracking-tight">
                     Countries
                 </h2>
@@ -42,7 +43,7 @@ function CountryList() {
                         ))}
                     </ul>
                 </div>
-            </>
+            </PageLayout>
         );
     } else {
         return null;

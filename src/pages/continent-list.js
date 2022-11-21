@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import PageLayout from "../components/page-layout";
 
 function ContinentList() {
     const apiKey = localStorage.getItem('apiKey');
@@ -22,7 +23,7 @@ function ContinentList() {
 
     if (continents) {
         return (
-            <>
+            <PageLayout>
                 <h2 className="text-xl font-bold leading-7 text-gray-900 sm:truncate sm:tracking-tight">
                     Continents
                 </h2>
@@ -42,7 +43,7 @@ function ContinentList() {
                         ))}
                     </ul>
                 </div>
-            </>
+            </PageLayout>
         );
     } else {
         return null;

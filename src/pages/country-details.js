@@ -2,6 +2,7 @@ import { Transition } from "@headlessui/react";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PageHeading from "../components/page-heading";
+import PageLayout from "../components/page-layout";
 import Translation from "../components/translation";
 import TranslationNew from "../components/translation-new";
 import { CountryContext } from "../contexts/country-context";
@@ -39,7 +40,7 @@ function CountryDetails() {
 
     if (country && defaultTranslation) {
         return (
-            <>
+            <PageLayout>
                 <PageHeading name={defaultTranslation.name} country_code={country.country_code} continent={country.continent_name} />
 
                 <div className="flex mt-4 items-center">
@@ -78,7 +79,7 @@ function CountryDetails() {
                         ))}
                     </ul>
                 </div>
-            </>
+            </PageLayout>
         );
     } else {
         return null;

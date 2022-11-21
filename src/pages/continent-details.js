@@ -1,6 +1,7 @@
 import { Transition } from "@headlessui/react";
 import { Fragment, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import PageLayout from "../components/page-layout";
 import Translation from "../components/translation";
 import TranslationNew from "../components/translation-new";
 import { ContinentContext } from "../contexts/continent-context";
@@ -38,7 +39,7 @@ function ContinentDetails() {
 
     if (continent && defaultTranslation) {
         return (
-            <>
+            <PageLayout>
                 <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
                     {defaultTranslation.name}
                 </h2>
@@ -79,7 +80,7 @@ function ContinentDetails() {
                         ))}
                     </ul>
                 </div>
-            </>
+            </PageLayout>
         );
     } else {
         return null;
