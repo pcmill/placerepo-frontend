@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import PageLayout from "../components/page-layout";
 
 function CountryNew() {
     const [form, setForm] = useState({
@@ -62,7 +63,7 @@ function CountryNew() {
     };
 
     return (
-        <>
+        <PageLayout>
             <h1 className="text-xl font-medium text-gray-900">Add a new country</h1>
             <p className="mt-1 text-sm text-gray-500">Adding a new country does not happen often. This happened last in 2011 when South Sudan became recognized. Since this task does not happen often it will probably be done by a Level 2 user.</p>
 
@@ -138,7 +139,7 @@ function CountryNew() {
                     Create new country
                 </button>
             </form>
-        </>
+        </PageLayout>
     )
 }
 

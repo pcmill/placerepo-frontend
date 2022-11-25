@@ -9,14 +9,22 @@ function TranslationNew(props) {
     const [languages, setLanguages] = useState([]);
     const [name, setName] = useState('');
     const [query, setQuery] = useState('');
-    const [selectedLanguage, setSelectedLanguage] = useState({
+    const defaultLanguage = {
         id: 39,
         language_code: "en",
         description: "English"
-    });
+    }
+
+    const lastUsedLanguage = JSON.parse(localStorage.getItem('lastUsedLanguage'));
+    const [selectedLanguage, setSelectedLanguage] = useState(lastUsedLanguage || defaultLanguage);
 
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ');
+    }
+
+    function adjustLanguage(value) {
+        setSelectedLanguage(value);
+        localStorage.setItem('lastUsedLanguage', JSON.stringify(value));
     }
 
     const filteredLanguages =
@@ -86,53 +94,55 @@ function TranslationNew(props) {
                 />
             </div>
 
-            <div className="mt-2 sm:flex sm:justify-between">
-                <div className="flex w-full items-center text-sm text-gray-800">
-                    <LanguageIcon className="mr-2 h-5 w-5 flex-shrink-0 text-gray-500" aria-hidden="true" />
+            <div className="mt-2 flex justify-between">
+                <div className="flex flex-col md:flex-row w-full items-center text-sm text-gray-800">
+                    <div className="flex items-center w-full md:w-auto">
+                        <LanguageIcon className="mr-2 h-5 w-5 flex-shrink-0 text-gray-500" aria-hidden="true" />
 
-                    <Combobox as="div" value={selectedLanguage} onChange={setSelectedLanguage}>
-                        <div className="relative">
-                            <Combobox.Input
-                                className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
-                                displayValue={(language) => language && language.description}
-                                onChange={(event) => setQuery(event.target.value)} />
+                        <Combobox value={selectedLanguage} onChange={adjustLanguage}>
+                            <div className="relative w-full md:w-56">
+                                <Combobox.Input
+                                    className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                                    displayValue={(language) => language && language.description}
+                                    onChange={(event) => setQuery(event.target.value)} />
 
-                            <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                {filteredLanguages.map((language) => (
-                                    <Combobox.Option
-                                        className={({ active }) =>
-                                            classNames(
-                                            'relative cursor-default select-none py-2 pl-3 pr-9',
-                                            active ? 'bg-indigo-600 text-white' : 'text-gray-900'
-                                        )}
-                                        key={language.id}
-                                        value={language}>
-                                        
-                                        {({ active, selected }) => (
-                                            <>
-                                                <span className={classNames('block truncate', selected && 'font-semibold')}>{language.description}</span>
+                                <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                                    {filteredLanguages.map((language) => (
+                                        <Combobox.Option
+                                            className={({ active }) =>
+                                                classNames(
+                                                'relative cursor-default select-none py-2 pl-3 pr-9',
+                                                active ? 'bg-indigo-600 text-white' : 'text-gray-900'
+                                            )}
+                                            key={language.id}
+                                            value={language}>
+                                            
+                                            {({ active, selected }) => (
+                                                <>
+                                                    <span className={classNames('block truncate', selected && 'font-semibold')}>{language.description}</span>
 
-                                                {selected && (
-                                                    <span
-                                                        className={classNames(
-                                                            'absolute inset-y-0 right-0 flex items-center pr-4',
-                                                            active ? 'text-white' : 'text-indigo-600'
-                                                        )}
-                                                    >
-                                                        <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                                                    </span>
-                                                )}
-                                            </>
-                                        )}
-                                    </Combobox.Option>
-                                ))}
-                            </Combobox.Options>
-                        </div>
-                    </Combobox>
+                                                    {selected && (
+                                                        <span
+                                                            className={classNames(
+                                                                'absolute inset-y-0 right-0 flex items-center pr-4',
+                                                                active ? 'text-white' : 'text-indigo-600'
+                                                            )}
+                                                        >
+                                                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                                        </span>
+                                                    )}
+                                                </>
+                                            )}
+                                        </Combobox.Option>
+                                    ))}
+                                </Combobox.Options>
+                            </div>
+                        </Combobox>
+                    </div>
 
                     <button
                         type="submit"
-                        className="ml-auto inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        className="w-full md:w-auto mt-2 md:mt-0 ml-auto inline-flex items-center rounded-md border border-transparent bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
                     >
                         Save translation
                     </button>

@@ -1,5 +1,5 @@
 import { Transition } from "@headlessui/react";
-import { Fragment, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PageLayout from "../components/page-layout";
 import Translation from "../components/translation";
