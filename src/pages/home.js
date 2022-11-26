@@ -1,9 +1,9 @@
-import Map from "../components/map";
+import HomeMap from "../components/home-map";
 
 function Home() {
     return (
         <div className="-px-8">
-            <Map />
+            <HomeMap />
         </div>
     )
 }

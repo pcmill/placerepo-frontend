@@ -8,7 +8,7 @@ function PageHeading(props) {
                     {props.name}
                 </h2>
 
-                <div className="mt-1 flex flex-col sm:mt-4 sm:flex-row sm:flex-wrap sm:space-x-4">
+                <div className="mt-2 flex flex-row sm:mt-4 sm:flex-wrap space-x-2">
                     <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
                         <GlobeAltIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
                         {props.continent}

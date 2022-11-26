@@ -34,8 +34,13 @@ function CountryList() {
                             <li key={c.id}>
                                 <Link to={"/country/" + c.id} className="block hover:bg-gray-50" preventScrollReset={true}>
                                     <div className="px-4 py-4 sm:px-6">
-                                        <div className="flex items-center justify-between">
+                                        <div className="flex items-center">
                                             <p className="truncate text-sm font-medium text-indigo-600">{c.name}</p>
+
+                                            <div className="ml-2 inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5">
+                                                <span className="text-xs text-gray-500">Translations</span>
+                                                <span className="ml-2 text-sm text-gray-800">{c.translations}</span> 
+                                            </div>
                                         </div>
                                     </div>
                                 </Link>
