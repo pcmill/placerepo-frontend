@@ -8,6 +8,8 @@ import ContinentDetails from "./pages/continent-details";
 import Shell from "./components/shell";
 import CountryWrapper from "./pages/country-wrapper";
 import ContinentWrapper from "./pages/continent-wrapper";
+import AdminDetails from "./pages/admin-details";
+import AdminWrapper from "./pages/admin-wrapper";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +49,16 @@ const router = createBrowserRouter([
           {
             path: '/country/:id',
             element: <CountryDetails />
+          }
+        ]
+      },
+      {
+        path: '/admin/:level/:id',
+        element: <AdminWrapper />,
+        children: [
+          {
+            path: '/admin/:level/:id',
+            element: <AdminDetails />
           }
         ]
       }

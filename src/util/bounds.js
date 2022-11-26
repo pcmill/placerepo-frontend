@@ -1,10 +1,12 @@
 import { roundTo } from "./number";
 
 export function convertBounds(bounds) {
-    const northEast = [roundTo(bounds._ne.lat, 3), roundTo(bounds._ne.lng, 3)];
-    const southWest = [roundTo(bounds._sw.lat, 3), roundTo(bounds._sw.lng, 3)];
-
-    return [northEast, southWest];
+    if (bounds) {
+        const northEast = [roundTo(bounds._ne.lat, 3), roundTo(bounds._ne.lng, 3)];
+        const southWest = [roundTo(bounds._sw.lat, 3), roundTo(bounds._sw.lng, 3)];
+    
+        return [northEast, southWest];
+    }
 }
 
 /* 

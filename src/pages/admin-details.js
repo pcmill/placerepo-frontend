@@ -1,48 +1,48 @@
 import { Transition } from "@headlessui/react";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import AdminList from "../components/admin-list";
-import PageHeading from "../components/page-heading";
 import PageLayout from "../components/page-layout";
 import Translation from "../components/translation";
 import TranslationNew from "../components/translation-new";
-import { CountryContext } from "../contexts/country-context";
+import { AdminContext } from "../contexts/admin-context";
 
-function CountryDetails() {
-    const { id } = useParams();
-    const { country, setCountry } = useContext(CountryContext);
+function AdminDetails() {
+    const { id, level } = useParams();
     const apiKey = localStorage.getItem('apiKey');
+    const { admin, setAdmin } = useContext(AdminContext);
     const [addingTranslation, setAddingTranslation] = useState(false);
     const [defaultTranslation, setDefaultTranslations] = useState(null);
 
     useEffect(() => {
-        const fetchCountry = async () => {
-            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/country/${id}`, {
+        const fetchAdmin = async () => {
+            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/admin/1/${id}`, {
                 headers: {
                     'x-api-key': apiKey
                 }
             });
 
             const c = await data.json();
-            setCountry(c);
+            setAdmin(c);
 
             const defaultT = c.translations.find((t) => t.id === c.default_translation);
             setDefaultTranslations(defaultT);
         }
 
-        fetchCountry();
-    }, [id, apiKey, setCountry]);
+        fetchAdmin();
+    }, [id, apiKey, setAdmin]);
 
     function updateTranslations(translation) {
-        const newCountry = { ...country }
-        newCountry.translations.push(translation);
-        setCountry(newCountry);
+        const newAdmin = { ...admin }
+        newAdmin.translations.push(translation);
+        setAdmin(newAdmin);
     }
 
-    if (country && defaultTranslation) {
+    if (admin && defaultTranslation) {
         return (
             <PageLayout>
-                <PageHeading name={defaultTranslation.name} country_code={country.country_code} continent={country.continent_name} />
+                <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+                    {defaultTranslation.name}
+                </h2>
 
                 <div className="flex mt-4 items-center">
                     <h2 className="text-xl font-bold leading-7 text-gray-900 sm:truncate sm:tracking-tight">
@@ -66,22 +66,20 @@ function CountryDetails() {
                             enter="transition-opacity duration-200"
                             enterFrom="opacity-0"
                             enterTo="opacity-100">
-                            <TranslationNew 
-                                placeholder="Kenya" 
-                                entityId={{country_id: id}}
-                                endpoint="/country/translation"
-                                setEntity={(t) => updateTranslations(t)} />
+                            <TranslationNew
+                                placeholder="Alabama" 
+                                entityId={{[`admin_id`]: id}}
+                                endpoint="/admin/1/translation"
+                                setEntity={(t) => updateTranslations(t)}/>
                         </Transition>
 
-                        {country.translations.map((tr) => (
+                        {admin.translations.map((tr) => (
                             <li key={tr.id}>
                                 <Translation translation={tr} defaultTranslation={tr.id === defaultTranslation.id} />
                             </li>
                         ))}
                     </ul>
                 </div>
-
-                <AdminList countryId={country.id} />
             </PageLayout>
         );
     } else {
@@ -89,4 +87,4 @@ function CountryDetails() {
     }
 }
 
-export default CountryDetails;
+export default AdminDetails;
