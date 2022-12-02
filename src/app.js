@@ -53,11 +53,11 @@ const router = createBrowserRouter([
         ]
       },
       {
-        path: '/admin/:level/:id',
+        path: '/admin/:id',
         element: <AdminWrapper />,
         children: [
           {
-            path: '/admin/:level/:id',
+            path: '/admin/:id',
             element: <AdminDetails />
           }
         ]

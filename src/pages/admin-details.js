@@ -1,13 +1,14 @@
 import { Transition } from "@headlessui/react";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import AdminListByAdmin from "../components/admin-list-by-admin";
 import PageLayout from "../components/page-layout";
 import Translation from "../components/translation";
 import TranslationNew from "../components/translation-new";
 import { AdminContext } from "../contexts/admin-context";
 
 function AdminDetails() {
-    const { id, level } = useParams();
+    const { id } = useParams();
     const apiKey = localStorage.getItem('apiKey');
     const { admin, setAdmin } = useContext(AdminContext);
     const [addingTranslation, setAddingTranslation] = useState(false);
@@ -15,7 +16,7 @@ function AdminDetails() {
 
     useEffect(() => {
         const fetchAdmin = async () => {
-            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/admin/1/${id}`, {
+            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/admin/${id}`, {
                 headers: {
                     'x-api-key': apiKey
                 }
@@ -69,7 +70,7 @@ function AdminDetails() {
                             <TranslationNew
                                 placeholder="Alabama" 
                                 entityId={{[`admin_id`]: id}}
-                                endpoint="/admin/1/translation"
+                                endpoint="/admin/translation"
                                 setEntity={(t) => updateTranslations(t)}/>
                         </Transition>
 
@@ -80,6 +81,8 @@ function AdminDetails() {
                         ))}
                     </ul>
                 </div>
+
+                <AdminListByAdmin key={ id } adminId={ id } />
             </PageLayout>
         );
     } else {

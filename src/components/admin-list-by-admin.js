@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-function AdminList(props) {
+function AdminListByAdmin(props) {
     const apiKey = localStorage.getItem('apiKey');
     const [admins, setAdmins] = useState([]);
 
     useEffect(() => {
         const fetchAdmins = async () => {
-            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/admin/country/${props.countryId}`, {
+            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/admin/list/${props.adminId}`, {
                 headers: {
                     'x-api-key': apiKey
                 }
@@ -18,13 +18,13 @@ function AdminList(props) {
         }
 
         fetchAdmins();
-    }, [apiKey, props.countryId]);
+    }, [apiKey]);
 
     if (admins && admins.length) {
         return (
             <>
                 <h2 className="mt-4 text-xl font-bold leading-7 text-gray-900 sm:truncate sm:tracking-tight">
-                    Admins (top-level)
+                    Admins
                 </h2>
 
                 <div className="mt-4 overflow-hidden bg-white shadow sm:rounded-md">
@@ -56,10 +56,10 @@ function AdminList(props) {
                     Admins
                 </h2>
 
-                <p className="mt-2 text-gray-700">This country does not have any top-level admins.</p>
+                <p className="mt-2 text-gray-700">No more admins founds.</p>
             </>
         );
     }
 }
 
-export default AdminList;
+export default AdminListByAdmin;
