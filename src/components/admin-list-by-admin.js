@@ -18,7 +18,7 @@ function AdminListByAdmin(props) {
         }
 
         fetchAdmins();
-    }, [apiKey]);
+    }, [apiKey, props.adminId]);
 
     if (admins && admins.length) {
         return (

@@ -10,6 +10,9 @@ import CountryWrapper from "./pages/country-wrapper";
 import ContinentWrapper from "./pages/continent-wrapper";
 import AdminDetails from "./pages/admin-details";
 import AdminWrapper from "./pages/admin-wrapper";
+import PlaceNew from "./pages/place-new";
+import PlaceWrapper from "./pages/place-wrapper";
+import PlaceDetails from "./pages/place-details";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +62,20 @@ const router = createBrowserRouter([
           {
             path: '/admin/:id',
             element: <AdminDetails />
+          }
+        ]
+      },
+      {
+        path: '/place/new',
+        element: <PlaceNew />
+      },
+      {
+        path: '/place/:id',
+        element: <PlaceWrapper />,
+        children: [
+          {
+            path: '/place/:id',
+            element: <PlaceDetails />
           }
         ]
       }

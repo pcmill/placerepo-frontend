@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import AdminList from "../components/admin-list";
 import PageLayout from "../components/page-layout";
 
 function CountryList() {
