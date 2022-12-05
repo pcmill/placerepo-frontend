@@ -75,7 +75,11 @@ function CountryDetails() {
 
                         {country.translations.map((tr) => (
                             <li key={tr.id}>
-                                <Translation translation={tr} defaultTranslation={tr.id === defaultTranslation.id} />
+                                <Translation 
+                                    endpoint="/country/translation"
+                                    translation={tr}
+                                    placeholder="Kenya"
+                                    defaultTranslation={tr.id === defaultTranslation.id} />
                             </li>
                         ))}
                     </ul>

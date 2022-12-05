@@ -75,7 +75,11 @@ function ContinentDetails() {
 
                         {continent.translations.map((tr) => (
                             <li key={tr.id}>
-                                <Translation translation={tr} defaultTranslation={tr.id === defaultTranslation.id} />
+                                <Translation
+                                    translation={tr}
+                                    endpoint="/continent/translation"
+                                    placeholder="Africa"
+                                    defaultTranslation={tr.id === defaultTranslation.id} />
                             </li>
                         ))}
                     </ul>
