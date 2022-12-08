@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CenterMap from "../components/center-map";
 import PageLayout from "../components/page-layout";
 import { roundTo } from "../util/number";
@@ -19,6 +20,7 @@ function PlaceNew() {
     const [selectFirstAdmin, setSelectFirstAdmin] = useState(null);
     const [selectSecondAdmin, setSelectSecondAdmin] = useState(null);
     const [apiKey, setApiKey] = useState('');
+    const navigate = useNavigate();
 
     function showFirstAdmin () {
         return firstAdmins && firstAdmins.length > 0;
@@ -124,7 +126,7 @@ function PlaceNew() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        await fetch('http://localhost:8881/v1/place', {
+        const response = await fetch('http://localhost:8881/v1/place', {
                 method: 'POST',
                 body: JSON.stringify(form),
                 headers: {
@@ -133,6 +135,10 @@ function PlaceNew() {
                     
                 }
         });
+
+        if (response.ok) {
+            navigate('/');
+        }
     };
 
     return (
