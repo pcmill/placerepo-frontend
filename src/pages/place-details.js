@@ -1,6 +1,7 @@
 import { Transition } from "@headlessui/react";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import DetailMap from "../components/detail-map";
 import PageLayout from "../components/page-layout";
 import Translation from "../components/translation";
 import TranslationNew from "../components/translation-new";
@@ -44,46 +45,62 @@ function PlaceDetails() {
                     {defaultTranslation.name}
                 </h2>
 
-                <div className="flex mt-4 items-center">
-                    <h2 className="text-xl font-bold leading-7 text-gray-900 sm:truncate sm:tracking-tight">
-                        Translations
-                    </h2>
+                <section>
+                    <div className="flex mt-4 items-center">
+                        <h2 className="text-xl font-bold leading-7 text-gray-900 sm:truncate sm:tracking-tight">
+                            Translations
+                        </h2>
 
-                    <button
-                        onClick={() => setAddingTranslation(!addingTranslation)}
-                        type="button"
-                        className="ml-auto inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    >
-                        {addingTranslation && <span>Done</span>}
-                        {!addingTranslation && <span>Add translation</span>}
-                    </button>
-                </div>
+                        <button
+                            onClick={() => setAddingTranslation(!addingTranslation)}
+                            type="button"
+                            className="ml-auto inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        >
+                            {addingTranslation && <span>Done</span>}
+                            {!addingTranslation && <span>Add translation</span>}
+                        </button>
+                    </div>
 
-                <div className="mt-4 overflow-hidden bg-white shadow sm:rounded-md">
-                    <ul className="divide-y divide-gray-200">
-                        <Transition
-                            show={addingTranslation}
-                            enter="transition-opacity duration-200"
-                            enterFrom="opacity-0"
-                            enterTo="opacity-100">
-                            <TranslationNew 
-                                placeholder="New York" 
-                                entityId={{place_id: id}}
-                                endpoint="/place/translation"
-                                setEntity={(t) => updateTranslations(t)}/>
-                        </Transition>
-
-                        {place.translations.map((tr) => (
-                            <li key={tr.id}>
-                                <Translation 
-                                    translation={tr}
-                                    endpoint="/place/translation"
+                    <div className="mt-4 overflow-hidden bg-white shadow sm:rounded-md">
+                        <ul className="divide-y divide-gray-200">
+                            <Transition
+                                show={addingTranslation}
+                                enter="transition-opacity duration-200"
+                                enterFrom="opacity-0"
+                                enterTo="opacity-100">
+                                <TranslationNew 
                                     placeholder="New York" 
-                                    defaultTranslation={tr.id === defaultTranslation.id} />
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                                    entityId={{place_id: id}}
+                                    endpoint="/place/translation"
+                                    setEntity={(t) => updateTranslations(t)}/>
+                            </Transition>
+
+                            {place.translations.map((tr) => (
+                                <li key={tr.id}>
+                                    <Translation 
+                                        translation={tr}
+                                        endpoint="/place/translation"
+                                        placeholder="New York" 
+                                        defaultTranslation={tr.id === defaultTranslation.id} />
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </section>
+
+                <section className="mt-4">
+                    <h2 className="text-xl font-bold leading-7 text-gray-900 sm:truncate sm:tracking-tight">
+                        Map
+                    </h2>
+                
+                    <div className="mt-4">
+                        <DetailMap 
+                            latitude={place.latitude}
+                            longitude={place.longitude}
+                            polygon={place.polygon}
+                            name={defaultTranslation.name}/>
+                    </div>
+                </section>
             </PageLayout>
         );
     } else {
