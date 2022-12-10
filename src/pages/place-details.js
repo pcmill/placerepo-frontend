@@ -1,6 +1,6 @@
 import { Transition } from "@headlessui/react";
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import DetailMap from "../components/detail-map";
 import PageLayout from "../components/page-layout";
 import Translation from "../components/translation";
@@ -89,9 +89,19 @@ function PlaceDetails() {
                 </section>
 
                 <section className="mt-4">
-                    <h2 className="text-xl font-bold leading-7 text-gray-900 sm:truncate sm:tracking-tight">
-                        Map
-                    </h2>
+                    <div className="flex mt-4 items-center">
+                        <h2 className="text-xl font-bold leading-7 text-gray-900 sm:truncate sm:tracking-tight">
+                            Map
+                        </h2>
+
+                        <Link
+                            to={`/place/${id}/map`}
+                            type="button"
+                            className="ml-auto inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        >
+                            Edit map
+                        </Link>
+                    </div>
                 
                     <div className="mt-4">
                         <DetailMap 

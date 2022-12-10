@@ -13,6 +13,7 @@ import AdminWrapper from "./pages/admin-wrapper";
 import PlaceNew from "./pages/place-new";
 import PlaceWrapper from "./pages/place-wrapper";
 import PlaceDetails from "./pages/place-details";
+import PlaceEditMap from "./pages/place-edit-map";
 
 const router = createBrowserRouter([
   {
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
           {
             path: '/place/:id',
             element: <PlaceDetails />
+          },
+          {
+            path: '/place/:id/map',
+            element: <PlaceEditMap />
           }
         ]
       }
