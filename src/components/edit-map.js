@@ -26,7 +26,8 @@ function EditMap(props) {
         const draw = new mapboxGlDraw({
             displayControlsDefault: false,
             controls: {
-                polygon: true
+                polygon: true,
+                trash: true
             }
         });
 

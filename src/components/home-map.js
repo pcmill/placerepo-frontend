@@ -11,14 +11,9 @@ function HomeMap() {
     const [API_KEY] = useState('dyK35oSh2RzcM1TQJdy8');
     const [places, setPlaces] = useState(null);
     const [placeMarkers, setPlaceMarkers] = useState([]);
-
     const defaultBounds = [[53.418, 5.05], [52.734, 4.479]];
     const previousBounds = JSON.parse(localStorage.getItem('bounds'));
     const [bounds] = useState(previousBounds || defaultBounds);
-
-    useEffect(() => {
-        fetchPlaces(bounds, apiKey, setPlaces);
-    }, [apiKey, setPlaces, bounds]);
 
     useEffect(() => {
         if (map.current) return;
@@ -32,6 +27,12 @@ function HomeMap() {
 
         map.current.addControl(new maplibregl.NavigationControl(), 'top-right');
 
+        map.current.on('load', async () => {
+            const bounds = map.current.getBounds();
+            const cBounds = convertBounds(bounds);
+            await fetchPlaces(cBounds, apiKey, setPlaces);
+        });
+
         map.current.on('moveend', async () => {
             const bounds = map.current.getBounds();
             const cBounds = convertBounds(bounds);
@@ -44,11 +45,10 @@ function HomeMap() {
     useEffect(() => {
         if (places && places.length > 0) {
             for (const place of places) {
-                const result = placeMarkers.find((p) => p === place.id);
+                console.log(placeMarkers);
+                const result = placeMarkers.find((p) => p.id === place.id);
 
                 if (result === undefined) {
-                    setPlaceMarkers([...placeMarkers, place.id]);
-
                     new maplibregl.Marker()
                         .setLngLat([Number(place.longitude), Number(place.latitude)])
                         .setPopup(new maplibregl.Popup({
@@ -57,6 +57,20 @@ function HomeMap() {
                             `<a href="/place/${place.id}" class="text-gray-600 text-lg">${place.name}</a>`
                         ))
                         .addTo(map.current);
+
+                    if (place.polygon) {
+                        setPolygon(map, place);
+                    }
+
+                    setPlaceMarkers((prev) => [...prev, {
+                        id: place.id,
+                        polygon: (place.polygon !== undefined)
+                    }]);
+                }
+
+                if (result && !result.polygon && place.polygon) {
+                    setPolygon(map, place);
+                    result.polygon = true;
                 }
             }
         }
@@ -87,6 +101,36 @@ async function fetchPlaces(currentBounds, apiKey, setPlaces) {
 
     if (p) {
         setPlaces(p.places);
+    }
+}
+
+function setPolygon(map, place) {
+    if (place.polygon) {
+        const data = JSON.parse(place.polygon);
+    
+        map.current.addSource(`polygon-${place.id}`, {
+            'type': 'geojson',
+            'data': {
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'Polygon',
+                    'coordinates': [
+                        data
+                    ]
+                }
+            }
+        });
+    
+        map.current.addLayer({
+            'id': `polygon-${place.id}`,
+            'type': 'fill',
+            'source': `polygon-${place.id}`,
+            'layout': {},
+            'paint': {
+                'fill-color': '#D3D3D3',
+                'fill-opacity': 0.35
+            }
+        });
     }
 }
 
