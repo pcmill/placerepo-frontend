@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import EditMap from "../components/edit-map";
 import PageLayout from "../components/page-layout";
 import { PlaceContext } from "../contexts/place-context";
@@ -70,20 +70,29 @@ function PlaceEditMap() {
                     <p className="my-2 text-xs text-gray-500">Move the marker around to set a new center. Add a polygon for the place outline.</p>
                 
                     <div className="mt-4">
-                        <EditMap 
+                        {defaultTranslation && <EditMap 
                             latitude={place.latitude}
                             longitude={place.longitude}
                             polygon={place.polygon}
+                            name={defaultTranslation.name}
+                            setLatlong={(latlng) => setPlace({ ...place, latitude: latlng.latitude, longitude: latlng.longitude })}
                             setPolygon={(polygon) => setPlace({ ...place, polygon })}
-                            />
+                            />}
                     </div>
                 </section>
 
-                <section className="mt-4">
+                <section className="flex mt-4">
+                    <Link
+                        to={`/place/${place.id}`}
+                        className="relative rounded-md border border-transparent bg-gray-400 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                    >
+                        Cancel
+                    </Link>
+
                     <button
                         type="submit"
                         onClick={(e) => savePlace(e)}
-                        className="relative rounded-md border border-transparent bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+                        className="ml-2 relative rounded-md border border-transparent bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
                     >
                         Save changes
                     </button>

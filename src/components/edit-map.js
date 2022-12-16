@@ -8,6 +8,7 @@ import '../style/map.css';
 function EditMap(props) {
     const mapContainer = useRef(null);
     const map = useRef(null);
+    const marker = useRef(null);
     const [API_KEY] = useState('dyK35oSh2RzcM1TQJdy8');
 
     useEffect(() => {
@@ -30,10 +31,10 @@ function EditMap(props) {
                 trash: true
             }
         });
-
+        
         map.current.on('load', () => {
             map.current.addControl(draw);
-
+            
             if (props.polygon) {
                 const geojson = {
                     type: 'Polygon',
@@ -41,9 +42,7 @@ function EditMap(props) {
                         JSON.parse(props.polygon)
                     ]
                 };
-    
-                console.log(geojson);
-    
+
                 draw.add(geojson);
             }
         });
@@ -74,12 +73,16 @@ function EditMap(props) {
     
                 draw.delete(pids);
             }
-          });
+        });
     }, [API_KEY, props, props.latitude, props.longitude]);
 
     useEffect(() => {
         if (props.latitude && props.longitude) {
-            new maplibregl.Marker()
+            if (marker.current) return;
+
+            marker.current = new maplibregl.Marker({
+                draggable: true
+            })
                 .setLngLat([Number(props.longitude), Number(props.latitude)])
                 .setPopup(new maplibregl.Popup({
                     closeButton: false
@@ -87,6 +90,17 @@ function EditMap(props) {
                     `<a class="text-gray-600 text-lg">${props.name}</a>`
                 ))
                 .addTo(map.current);
+
+            function onDragEnd() {
+                const lngLat = marker.current.getLngLat();
+
+                props.setLatlong({
+                    latitude: lngLat.lat,
+                    longitude: lngLat.lng
+                });
+            }
+    
+            marker.current.on('dragend', onDragEnd);
         }
     }, [map, props.latitude, props.longitude, props.name]);
 
