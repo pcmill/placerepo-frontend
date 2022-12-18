@@ -3,6 +3,7 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import '../style/map.css';
 import { convertBounds, flipLatLng } from "../util/bounds";
+import Marker from "./marker";
 
 function CenterMap(props) {
     const apiKey = localStorage.getItem('apiKey');
@@ -27,6 +28,7 @@ function CenterMap(props) {
         const center = new maplibregl.LngLatBounds(flipLatLng(bounds)).getCenter();
 
         const marker = new maplibregl.Marker({
+            element: Marker(),
             draggable: true
         }).setLngLat(center).addTo(map.current);
 

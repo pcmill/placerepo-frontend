@@ -127,17 +127,19 @@ function PlaceNew() {
         event.preventDefault();
 
         const response = await fetch('http://localhost:8881/v1/place', {
-                method: 'POST',
-                body: JSON.stringify(form),
-                headers: {
-                    'content-type': 'application/json',
-                    'x-api-key': apiKey,
-                    
-                }
+            method: 'POST',
+            body: JSON.stringify(form),
+            headers: {
+                'content-type': 'application/json',
+                'x-api-key': apiKey,
+                
+            }
         });
 
+        const json = await response.json();
+
         if (response.ok) {
-            navigate('/');
+            navigate('/place/' + json.placeId);
         }
     };
 

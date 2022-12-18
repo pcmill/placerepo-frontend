@@ -2,6 +2,7 @@ import { Transition } from "@headlessui/react";
 import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import DetailMap from "../components/detail-map";
+import MetadataEdit from "../components/metadata-edit";
 import PageLayout from "../components/page-layout";
 import Translation from "../components/translation";
 import TranslationNew from "../components/translation-new";
@@ -12,6 +13,7 @@ function PlaceDetails() {
     const apiKey = localStorage.getItem('apiKey');
     const { place, setPlace } = useContext(PlaceContext);
     const [addingTranslation, setAddingTranslation] = useState(false);
+    const [addingMetadata, setAddingMetaData] = useState(false);
     const [defaultTranslation, setDefaultTranslations] = useState(null);
 
     useEffect(() => {
@@ -35,6 +37,12 @@ function PlaceDetails() {
     function updateTranslations(translation) {
         const newPlace = { ...place }
         newPlace.translations.push(translation);
+        setPlace(newPlace);
+    }
+
+    function updateMetadata(metadata) {
+        setAddingMetaData(false);
+        const newPlace = { ...place, ...metadata }
         setPlace(newPlace);
     }
 
@@ -89,7 +97,50 @@ function PlaceDetails() {
                 </section>
 
                 <section className="mt-4">
-                    <div className="flex mt-4 items-center">
+                    <div className="flex items-center">
+                        <h2 className="text-xl font-bold leading-7 text-gray-900 sm:truncate sm:tracking-tight">
+                            Meta data
+                        </h2>
+
+                        <button
+                            onClick={() => setAddingMetaData(!addingMetadata)}
+                            type="button"
+                            className="ml-auto inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        >
+                            {addingMetadata && <span>Done</span>}
+                            {!addingMetadata && <span>Edit meta data</span>}
+                        </button>
+                    </div>
+
+                    <div className="px-6 py-4 mt-4 overflow-hidden bg-white shadow sm:rounded-md">
+                        {!addingMetadata && <div className="flex items-center justify-between">
+                            <div className="flex items-center">
+                                <p className="truncate text-sm text-gray-600">Population</p>
+                            </div>
+                        </div>}
+
+                        {!addingMetadata && <div className="mt-2 sm:flex sm:justify-between">
+                            <div className="sm:flex">
+                                <p className="flex items-center text-sm font-medium text-indigo-800">
+                                    {place.population || 'Unknown'}
+                                </p>
+
+                                {place.population && <p className="ml-2 inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
+                                    approximate: {place.population_approximate ? 'yes' : 'no'}
+                                </p>}
+
+                                {place.population && place.population_record_year && <p className="ml-2 inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
+                                    record year: {place.population_record_year}
+                                </p>}
+                            </div>
+                        </div>}
+
+                        {addingMetadata && <MetadataEdit place={place} setEntity={(t) => updateMetadata(t)} />}
+                    </div>
+                </section>
+
+                <section className="mt-4">
+                    <div className="flex items-center">
                         <h2 className="text-xl font-bold leading-7 text-gray-900 sm:truncate sm:tracking-tight">
                             Map
                         </h2>
