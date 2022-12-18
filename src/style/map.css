@@ -22,3 +22,15 @@
     width: 100%;
     height: 100%;
 }
+
+.marker {
+    border-radius: 50%;
+    border: 1px solid white;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: #4f46e5;
+}
+
+.marker:hover {
+    cursor: pointer;
+    filter: brightness(1.1);
+}

@@ -4,6 +4,7 @@ import mapboxGlDraw from "@mapbox/mapbox-gl-draw";
 import 'maplibre-gl/dist/maplibre-gl.css';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 import '../style/map.css';
+import Marker from "./marker";
 
 function EditMap(props) {
     const mapContainer = useRef(null);
@@ -81,6 +82,7 @@ function EditMap(props) {
             if (marker.current) return;
 
             marker.current = new maplibregl.Marker({
+                element: Marker(),
                 draggable: true
             })
                 .setLngLat([Number(props.longitude), Number(props.latitude)])
@@ -102,7 +104,7 @@ function EditMap(props) {
     
             marker.current.on('dragend', onDragEnd);
         }
-    }, [map, props.latitude, props.longitude, props.name]);
+    }, [map, props, props.latitude, props.longitude, props.name]);
 
     return (
         <div className="map-large">

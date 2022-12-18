@@ -3,6 +3,7 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import '../style/map.css';
 import { convertBounds, flipLatLng } from "../util/bounds";
+import Marker from "./marker";
 
 function HomeMap() {
     const apiKey = localStorage.getItem('apiKey');
@@ -45,11 +46,12 @@ function HomeMap() {
     useEffect(() => {
         if (places && places.length > 0) {
             for (const place of places) {
-                console.log(placeMarkers);
                 const result = placeMarkers.find((p) => p.id === place.id);
 
                 if (result === undefined) {
-                    new maplibregl.Marker()
+                    new maplibregl.Marker({
+                        element: Marker()
+                    })
                         .setLngLat([Number(place.longitude), Number(place.latitude)])
                         .setPopup(new maplibregl.Popup({
                             closeButton: false

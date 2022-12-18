@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import '../style/map.css';
+import Marker from "./marker";
 
 function DetailMap(props) {
     const mapContainer = useRef(null);
@@ -24,7 +25,9 @@ function DetailMap(props) {
 
     useEffect(() => {
         if (props.latitude && props.longitude) {
-            new maplibregl.Marker()
+            new maplibregl.Marker({
+                element: Marker()
+            })
                 .setLngLat([Number(props.longitude), Number(props.latitude)])
                 .setPopup(new maplibregl.Popup({
                     closeButton: false
