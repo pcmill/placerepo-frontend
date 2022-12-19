@@ -112,15 +112,15 @@ function PlaceDetails() {
                         </button>
                     </div>
 
-                    <div className="px-6 py-4 mt-4 overflow-hidden bg-white shadow sm:rounded-md">
-                        {!addingMetadata && <div className="flex items-center justify-between">
+                    <div className="mt-4 overflow-hidden bg-white shadow sm:rounded-md">
+                        {!addingMetadata && <div className="px-6 pt-4 flex items-center justify-between">
                             <div className="flex items-center">
                                 <p className="truncate text-sm text-gray-600">Population</p>
                             </div>
                         </div>}
 
                         {!addingMetadata && <div className="mt-2 sm:flex sm:justify-between">
-                            <div className="sm:flex">
+                            <div className="px-6 pb-4 sm:flex">
                                 <p className="flex items-center text-sm font-medium text-indigo-800">
                                     {place.population || 'Unknown'}
                                 </p>
@@ -136,6 +136,24 @@ function PlaceDetails() {
                         </div>}
 
                         {addingMetadata && <MetadataEdit place={place} setEntity={(t) => updateMetadata(t)} />}
+                    </div>
+
+                    <div className="mt-2 overflow-hidden bg-white shadow sm:rounded-md">
+                        {!addingMetadata && <div className="px-6 pt-4 flex items-center justify-between">
+                            <div className="flex items-center">
+                                <p className="truncate text-sm text-gray-600">Wikidata ID</p>
+                            </div>
+                        </div>}
+
+                        {!addingMetadata && <div className="mt-2 sm:flex sm:justify-between">
+                            <div className="px-6 pb-4 sm:flex">
+                                {place.wikidata_id && <a href={`https://www.wikidata.org/wiki/${place.wikidata_id}`} className="flex underline items-center text-sm font-medium text-indigo-800">
+                                    {place.wikidata_id}
+                                </a>}
+
+                                {!place.wikidata_id && <p className="flex items-center text-sm font-medium text-indigo-800">Unknown</p>}
+                            </div>
+                        </div>}
                     </div>
                 </section>
 

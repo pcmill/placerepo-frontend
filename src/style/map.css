@@ -33,4 +33,5 @@
 .marker:hover {
     cursor: pointer;
     filter: brightness(1.1);
+    border: 2px solid white;
 }
