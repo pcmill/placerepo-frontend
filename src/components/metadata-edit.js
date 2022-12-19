@@ -33,7 +33,8 @@ function MetadataEdit(props) {
         props.setEntity({
             population: place.population,
             population_approximate: place.population_approximate,
-            population_record_year: place.population_record_year
+            population_record_year: place.population_record_year,
+            wikidata_id: place.wikidata_id
         });
     }
 
@@ -51,7 +52,8 @@ function MetadataEdit(props) {
         props.setEntity({
             population: props.place.population,
             population_approximate: props.place.population_approximate,
-            population_record_year: props.place.population_record_year
+            population_record_year: props.place.population_record_year,
+            wikidata_id: props.place.wikidata_id
         });
     }
 
@@ -71,7 +73,7 @@ function MetadataEdit(props) {
                                 type="text"
                                 name="population"
                                 id="population"
-                                value={place.population}
+                                value={place.population || ""}
                                 onChange={(e) => setPlace({ ...place, population: Number(e.target.value) })}
                                 className="block flex w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 placeholder={125969}
@@ -87,7 +89,7 @@ function MetadataEdit(props) {
                                 type="text"
                                 name="population_record_year"
                                 id="population_record_year"
-                                value={place.population_record_year}
+                                value={place.population_record_year || ""}
                                 onChange={(e) => setPlace({ ...place, population_record_year: Number(e.target.value) })}
                                 className="block flex w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 placeholder={2020}
