@@ -1,16 +1,16 @@
 import { Fragment, useContext } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import {
-    Bars3BottomLeftIcon,
-    BellIcon
+    Bars3BottomLeftIcon
 } from '@heroicons/react/24/outline';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { SidebarContext } from '../contexts/sidebar-context';
+import { AuthContext } from '../contexts/auth-context';
+import { getGitHubUrl } from '../util/auth';
+import { Link } from 'react-router-dom';
 
 const userNavigation = [
-    { name: 'Your Profile', href: '#' },
-    { name: 'Settings', href: '#' },
-    { name: 'Sign out', href: '#' },
+    { name: 'Sign out', to: '/logout' }
 ];
 
 function classNames(...classes) {
@@ -19,6 +19,7 @@ function classNames(...classes) {
 
 function Topbar() {
     const { changeSidebarState } = useContext(SidebarContext);
+    const { user } = useContext(AuthContext);
 
     return (
         <>
@@ -56,23 +57,20 @@ function Topbar() {
                     </div>
 
                     <div className="ml-4 flex items-center md:ml-6">
-                        <button
-                            type="button"
-                            className="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        >
-                            <span className="sr-only">View notifications</span>
-                            <BellIcon className="h-6 w-6" aria-hidden="true" />
-                        </button>
+                        {!user && 
+                            <a href={getGitHubUrl()} className="text-sm font-medium text-gray-500 hover:text-gray-900">Sign in with Github</a>
+                        }
 
-                        {/* Profile dropdown */}
-                        <Menu as="div" className="relative ml-3">
+                        {user && <Menu as="div" className="relative ml-3">
                             <div>
                                 <Menu.Button className="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                                     <span className="sr-only">Open user menu</span>
+                                    <span className="font-bold text-gray-700 truncate">{user.username}</span>
+
                                     <img
-                                        className="h-8 w-8 rounded-full"
-                                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                        alt=""
+                                        className="ml-4 h-8 w-8 rounded-full"
+                                        src={user.avatar}
+                                        alt={user.username}
                                     />
                                 </Menu.Button>
                             </div>
@@ -90,21 +88,21 @@ function Topbar() {
                                     {userNavigation.map((item) => (
                                         <Menu.Item key={item.name}>
                                             {({ active }) => (
-                                                <a
-                                                    href={item.href}
+                                                <Link
+                                                    to={item.to}
                                                     className={classNames(
                                                         active ? 'bg-gray-100' : '',
                                                         'block px-4 py-2 text-sm text-gray-700'
                                                     )}
                                                 >
                                                     {item.name}
-                                                </a>
+                                                </Link>
                                             )}
                                         </Menu.Item>
                                     ))}
                                 </Menu.Items>
                             </Transition>
-                        </Menu>
+                        </Menu>}
                     </div>
                 </div>
             </div>

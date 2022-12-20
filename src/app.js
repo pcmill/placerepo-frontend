@@ -14,6 +14,8 @@ import PlaceNew from "./pages/place-new";
 import PlaceWrapper from "./pages/place-wrapper";
 import PlaceDetails from "./pages/place-details";
 import PlaceEditMap from "./pages/place-edit-map";
+import AuthGithub from "./pages/auth-github";
+import Logout from "./pages/logout";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +25,14 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />
+      },
+      {
+        path: '/logout',
+        element: <Logout />
+      },
+      {
+        path: '/auth/github',
+        element: <AuthGithub />
       },
       {
         path: '/continent',
