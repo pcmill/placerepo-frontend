@@ -69,7 +69,7 @@ function Topbar() {
 
                                     <img
                                         className="ml-4 h-8 w-8 rounded-full"
-                                        src={user.avatar}
+                                        src={`${user.avatar}&size=64`}
                                         alt={user.username}
                                     />
                                 </Menu.Button>
