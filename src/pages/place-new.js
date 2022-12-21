@@ -126,13 +126,12 @@ function PlaceNew() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const response = await fetch('http://localhost:8881/v1/place', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND}/v1/place`, {
             method: 'POST',
             body: JSON.stringify(form),
             headers: {
                 'content-type': 'application/json',
-                'x-api-key': apiKey,
-                
+                'x-api-key': apiKey
             }
         });
 

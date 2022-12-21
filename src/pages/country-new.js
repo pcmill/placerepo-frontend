@@ -51,7 +51,7 @@ function CountryNew() {
     const handleSubmit = async (event) => {
         event.preventDefault();
     
-        await fetch('http://localhost:8881/v1/country', {
+        await fetch(`${process.env.REACT_APP_BACKEND}/v1/country`, {
                 method: 'POST',
                 body: JSON.stringify(form),
                 headers: {
