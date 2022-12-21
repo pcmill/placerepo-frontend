@@ -6,6 +6,7 @@ import PageLayout from "../components/page-layout";
 import Translation from "../components/translation";
 import TranslationNew from "../components/translation-new";
 import { AdminContext } from "../contexts/admin-context";
+import { AuthContext } from "../contexts/auth-context";
 
 function AdminDetails() {
     const { id } = useParams();
@@ -13,6 +14,7 @@ function AdminDetails() {
     const { admin, setAdmin } = useContext(AdminContext);
     const [addingTranslation, setAddingTranslation] = useState(false);
     const [defaultTranslation, setDefaultTranslations] = useState(null);
+    const { user } = useContext(AuthContext);
 
     useEffect(() => {
         const fetchAdmin = async () => {
@@ -50,14 +52,14 @@ function AdminDetails() {
                         Translations
                     </h2>
 
-                    <button
+                    {user && <button
                         onClick={() => setAddingTranslation(!addingTranslation)}
                         type="button"
                         className="ml-auto inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                     >
                         {addingTranslation && <span>Done</span>}
                         {!addingTranslation && <span>Add translation</span>}
-                    </button>
+                    </button>}
                 </div>
 
                 <div className="mt-4 overflow-hidden bg-white shadow sm:rounded-md">

@@ -58,7 +58,7 @@ function Topbar() {
 
                     <div className="ml-4 flex items-center md:ml-6">
                         {!user && 
-                            <a href={getGitHubUrl()} className="text-sm font-medium text-gray-500 hover:text-gray-900">Sign in with Github</a>
+                            <a href={getGitHubUrl()} className="text-sm font-medium text-gray-500 hover:text-gray-900">Sign in with GitHub</a>
                         }
 
                         {user && <Menu as="div" className="relative ml-3">

@@ -1,12 +1,14 @@
 import { PencilIcon } from "@heroicons/react/20/solid";
 import { LanguageIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../contexts/auth-context";
 import TranslationEdit from "./translation-edit";
 
 function Translation(props) {
     const [editing, setEditing] = useState(false);
     const translation = props.translation;
     const defaultTranslation = props.defaultTranslation || false;
+    const { user } = useContext(AuthContext);
 
     function updateTranslation(t) {
         translation.name = t.name;
@@ -18,7 +20,7 @@ function Translation(props) {
             <div className="flex items-center justify-between">
                 {!editing && <div className="flex items-center">
                     <p className="truncate text-sm font-medium text-indigo-600">{translation.name}</p>
-                    <PencilIcon onClick={() => setEditing(true)} className="ml-2 mr-1.5 h-4 w-4 flex-shrink-0 text-gray-500" aria-hidden="true" />
+                    {user && <PencilIcon onClick={() => setEditing(true)} className="ml-2 mr-1.5 h-4 w-4 flex-shrink-0 text-gray-500" aria-hidden="true" />}
                 </div>}
                 
                 {defaultTranslation && !editing && <div className="ml-2 flex flex-shrink-0">

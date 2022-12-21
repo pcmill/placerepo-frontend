@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CenterMap from "../components/center-map";
+import LoggedOut from "../components/logged-out";
 import PageLayout from "../components/page-layout";
+import { AuthContext } from "../contexts/auth-context";
 import { roundTo } from "../util/number";
 
 function PlaceNew() {
@@ -19,6 +21,7 @@ function PlaceNew() {
     const [secondAdmins, setSecondAdmins] = useState([]);
     const [selectFirstAdmin, setSelectFirstAdmin] = useState(null);
     const [selectSecondAdmin, setSelectSecondAdmin] = useState(null);
+    const { user } = useContext(AuthContext); 
     const [apiKey, setApiKey] = useState('');
     const navigate = useNavigate();
 
@@ -146,7 +149,11 @@ function PlaceNew() {
         <PageLayout>
             <h1 className="text-xl font-medium text-gray-900">Add a new place</h1>
 
-            <form onSubmit={handleSubmit}>
+            {!user && <div className="mt-4">
+                <LoggedOut />
+            </div>}
+
+            {user && <form onSubmit={handleSubmit}>
                 <section className="mt-4">
                     <div className="flex justify-between">
                         <label htmlFor="email" className="block text-md font-medium text-gray-700">
@@ -256,7 +263,7 @@ function PlaceNew() {
                 </button>
 
                 <div><pre>{JSON.stringify(form, null, 2) }</pre></div>
-            </form>
+            </form>}
         </PageLayout>
     )
 }

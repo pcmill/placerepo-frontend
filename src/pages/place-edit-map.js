@@ -1,7 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import EditMap from "../components/edit-map";
+import LoggedOut from "../components/logged-out";
 import PageLayout from "../components/page-layout";
+import { AuthContext } from "../contexts/auth-context";
 import { PlaceContext } from "../contexts/place-context";
 
 function PlaceEditMap() {
@@ -10,6 +12,7 @@ function PlaceEditMap() {
     const navigate = useNavigate();
     const { place, setPlace } = useContext(PlaceContext);
     const [defaultTranslation, setDefaultTranslations] = useState(null);
+    const { user } = useContext(AuthContext);
 
     useEffect(() => {
         const fetchPlace = async () => {
@@ -62,7 +65,11 @@ function PlaceEditMap() {
                     Editing data for {defaultTranslation.name}
                 </h2>}
 
-                <section className="mt-4">
+                {!user && <div className="mt-4">
+                    <LoggedOut />
+                </div>}
+
+                {user && <section className="mt-4">
                     <h2 className="text-xl font-bold leading-7 text-gray-900 sm:truncate sm:tracking-tight">
                         Map
                     </h2>
@@ -79,9 +86,9 @@ function PlaceEditMap() {
                             setPolygon={(polygon) => setPlace({ ...place, polygon })}
                             />}
                     </div>
-                </section>
+                </section>}
 
-                <section className="flex mt-4">
+                {user && <section className="flex mt-4">
                     <Link
                         to={`/place/${place.id}`}
                         className="relative rounded-md border border-transparent bg-gray-400 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
@@ -96,7 +103,7 @@ function PlaceEditMap() {
                     >
                         Save changes
                     </button>
-                </section>
+                </section>}
             </PageLayout>
         );
     } else {
