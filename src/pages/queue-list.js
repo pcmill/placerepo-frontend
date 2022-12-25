@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react";
 import PageLayout from "../components/page-layout";
 import { QueueContext } from "../contexts/queue-context";
+import * as timeago from 'timeago.js';
 
 function QueueList() {
     const { queue, setQueue } = useContext(QueueContext);
@@ -15,7 +16,7 @@ function QueueList() {
         }
 
         fetchQueue();
-    }, []);
+    }, [setQueue]);
 
     if (queue && queue.length > 0) {
         return (
@@ -33,7 +34,7 @@ function QueueList() {
                                     <div className="flex-1 space-y-1">
                                         <div className="flex items-center justify-between">
                                             <h3 className="text-sm font-medium">{q.github_user_name}</h3>
-                                            <p className="text-sm text-gray-500">{q.created}</p>
+                                            <p className="text-sm text-gray-500">{timeago.format(q.created)}</p>
                                         </div>
 
                                         <p className="text-sm text-gray-500">
