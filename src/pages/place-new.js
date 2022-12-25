@@ -21,8 +21,7 @@ function PlaceNew() {
     const [secondAdmins, setSecondAdmins] = useState([]);
     const [selectFirstAdmin, setSelectFirstAdmin] = useState(null);
     const [selectSecondAdmin, setSelectSecondAdmin] = useState(null);
-    const { user } = useContext(AuthContext); 
-    const [apiKey, setApiKey] = useState('');
+    const { user, accessToken } = useContext(AuthContext); 
     const navigate = useNavigate();
 
     function showFirstAdmin () {
@@ -37,16 +36,8 @@ function PlaceNew() {
     }
 
     useEffect(() => {
-        const apiKey = localStorage.getItem('apiKey');
-        setApiKey(apiKey);
-
         const fetchCountries = async () => {
-            const c = await fetch(`${process.env.REACT_APP_BACKEND}/v1/country`, {
-                headers: {
-                    'x-api-key': apiKey
-                }
-            });
-
+            const c = await fetch(`${process.env.REACT_APP_BACKEND}/v1/country`);
             const json = await c.json();
 
             // Reset the admins if they where already set
@@ -71,12 +62,7 @@ function PlaceNew() {
     useEffect(() => {
         if (form.country_id) {
             const fetchFirstAdmin = async () => {
-                const c = await fetch(`${process.env.REACT_APP_BACKEND}/v1/admin/country/${form.country_id}`, {
-                    headers: {
-                        'x-api-key': apiKey
-                    }
-                });
-    
+                const c = await fetch(`${process.env.REACT_APP_BACKEND}/v1/admin/country/${form.country_id}`);
                 const json = await c.json();
     
                 setFirstAdmins(json);
@@ -86,17 +72,12 @@ function PlaceNew() {
             setSecondAdmins([]);
             fetchFirstAdmin();
         }
-    }, [form.country_id, apiKey]);
+    }, [form.country_id]);
 
     useEffect(() => {
         if (selectFirstAdmin) {
             const fetchSecondAdmin = async () => {
-                const c = await fetch(`${process.env.REACT_APP_BACKEND}/v1/admin/list/${selectFirstAdmin}`, {
-                    headers: {
-                        'x-api-key': apiKey
-                    }
-                });
-    
+                const c = await fetch(`${process.env.REACT_APP_BACKEND}/v1/admin/list/${selectFirstAdmin}`);
                 const json = await c.json();
     
                 setSecondAdmins(json);
@@ -105,7 +86,7 @@ function PlaceNew() {
     
             fetchSecondAdmin();
         }
-    }, [selectFirstAdmin, apiKey]);
+    }, [selectFirstAdmin]);
 
     const handleChange = (event) => {
         setForm(prevState => {
@@ -129,19 +110,26 @@ function PlaceNew() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const response = await fetch(`${process.env.REACT_APP_BACKEND}/v1/place`, {
+        const body = {
+            changeRequest: {
+                type: 'add_place',
+                requestObject: form
+            }
+        }
+
+        const response = await fetch(`${process.env.REACT_APP_BACKEND}/v1/queue`, {
             method: 'POST',
-            body: JSON.stringify(form),
+            body: JSON.stringify(body),
             headers: {
                 'content-type': 'application/json',
-                'x-api-key': apiKey
+                'x-access-token': accessToken
             }
         });
 
-        const json = await response.json();
+        await response.json();
 
         if (response.ok) {
-            navigate('/place/' + json.placeId);
+            navigate('/');
         }
     };
 
