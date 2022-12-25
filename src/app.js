@@ -16,6 +16,8 @@ import PlaceDetails from "./pages/place-details";
 import PlaceEditMap from "./pages/place-edit-map";
 import AuthGithub from "./pages/auth-github";
 import Logout from "./pages/logout";
+import QueueWrapper from "./pages/queue-wrapper";
+import QueueList from "./pages/queue-list";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +47,16 @@ const router = createBrowserRouter([
           {
             path: '/continent/:id',
             element: <ContinentDetails />
+          }
+        ]
+      },
+      {
+        path: '/queue',
+        element: <QueueWrapper />,
+        children: [
+          {
+            path: '/queue',
+            element: <QueueList />
           }
         ]
       },

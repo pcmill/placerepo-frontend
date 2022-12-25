@@ -11,4 +11,4 @@ export function getGitHubUrl() {
     const qs = new URLSearchParams(options);
   
     return `${rootURl}?${qs.toString()}`;
-  }
+}
