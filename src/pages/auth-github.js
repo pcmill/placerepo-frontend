@@ -9,23 +9,14 @@ function AuthGithub() {
 
     useEffect(() => {
         const fetchUserData = async (access_token) => {
-            const data = await fetch(`https://api.github.com/user`, {
-                headers: {
-                    'Authorization': `Bearer ${access_token}`
-                }
-            });
+            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/auth/user?access_token=${access_token}`);
 
-            const c = await data.json();
-            const user = {
-                id: c.id,
-                username: c.login,
-                avatar: c.avatar_url,
-                access_token: access_token
-            }
+            const u = await data.json();
 
-            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('user', JSON.stringify(u));
+            localStorage.setItem('accessToken', access_token);
 
-            setUser(user);
+            setUser(u);
         }
 
         const accessToken = searchParams.get('access_token');

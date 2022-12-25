@@ -9,15 +9,18 @@ export const AuthContext = createContext();
 export function AuthProvider({ children }) {
     const local = localStorage.getItem('user');
     const [user, setUser] = useState(JSON.parse(local));
+    const [accessToken] = useState(localStorage.getItem('accessToken'));
 
     function logout() {
         localStorage.removeItem('user');
+        localStorage.removeItem('accessToken');
         setUser(null);
     }
 
     const contextValue = {
         setUser,
         user,
+        accessToken,
         logout
     }
 

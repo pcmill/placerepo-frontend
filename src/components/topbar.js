@@ -19,7 +19,7 @@ function classNames(...classes) {
 
 function Topbar() {
     const { changeSidebarState } = useContext(SidebarContext);
-    const { user } = useContext(AuthContext);
+    const { user, accessToken } = useContext(AuthContext);
 
     return (
         <>
@@ -61,16 +61,16 @@ function Topbar() {
                             <a href={getGitHubUrl()} className="text-sm font-medium text-gray-500 hover:text-gray-900">Sign in with GitHub</a>
                         }
 
-                        {user && <Menu as="div" className="relative ml-3">
+                        {user && accessToken && <Menu as="div" className="relative ml-3">
                             <div>
                                 <Menu.Button className="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                                     <span className="sr-only">Open user menu</span>
-                                    <span className="font-bold text-gray-700 truncate">{user.username}</span>
+                                    <span className="font-bold text-gray-700 truncate">{user.github_user_name}</span>
 
                                     <img
                                         className="ml-4 h-8 w-8 rounded-full"
-                                        src={`${user.avatar}&size=64`}
-                                        alt={user.username}
+                                        src={`${user.github_avatar}&size=64`}
+                                        alt={user.github_user_name}
                                     />
                                 </Menu.Button>
                             </div>
