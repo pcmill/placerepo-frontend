@@ -56,7 +56,7 @@ function PlaceDetails() {
                     {defaultTranslation.name}
                 </h2>
 
-                <section className="mt-2 flex flex-row sm:mt-4 sm:flex-wrap space-x-2">
+                <section className="mt-2 flex flex-row mt-4 flex-wrap space-x-2">
                     <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
                         <GlobeAltIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
                         {place.country_name}
@@ -83,7 +83,7 @@ function PlaceDetails() {
                     </div>}
                 </section>
 
-                <section className="flex flex-row sm:mt-2 sm:flex-wrap space-x-2">
+                <section className="flex flex-row mt-1 sm:flex-wrap space-x-2">
                     <span className="inline-flex items-center rounded-full bg-gray-200 px-2.5 py-0.5 text-xs font-medium text-gray-800">
                         <ClockIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
                         {place.timezone}
