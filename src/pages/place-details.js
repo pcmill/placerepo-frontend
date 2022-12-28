@@ -1,4 +1,5 @@
 import { Transition } from "@headlessui/react";
+import { BuildingLibraryIcon, BuildingOffice2Icon, BuildingOfficeIcon, ClockIcon, GlobeAltIcon, HomeIcon } from "@heroicons/react/24/outline";
 import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import DetailMap from "../components/detail-map";
@@ -54,6 +55,40 @@ function PlaceDetails() {
                 <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
                     {defaultTranslation.name}
                 </h2>
+
+                <section className="mt-2 flex flex-row sm:mt-4 sm:flex-wrap space-x-2">
+                    <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
+                        <GlobeAltIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
+                        {place.country_name}
+                    </span>
+
+                    {place.admin_4_name && <div className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
+                        <BuildingLibraryIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
+                        Admin 4 - {place.admin_4_name}
+                    </div>}
+
+                    {place.admin_3_name && <div className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
+                        <BuildingOffice2Icon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
+                        Admin 3 - {place.admin_3_name}
+                    </div>}
+
+                    {place.admin_2_name && <div className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
+                        <BuildingOfficeIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
+                        Admin 2 - {place.admin_2_name}
+                    </div>}
+
+                    {place.admin_1_name && <div className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
+                        <HomeIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
+                        Admin 1 - {place.admin_1_name}
+                    </div>}
+                </section>
+
+                <section className="flex flex-row sm:mt-2 sm:flex-wrap space-x-2">
+                    <span className="inline-flex items-center rounded-full bg-gray-200 px-2.5 py-0.5 text-xs font-medium text-gray-800">
+                        <ClockIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
+                        {place.timezone}
+                    </span>
+                </section>
 
                 <section>
                     <div className="flex mt-4 items-center">
