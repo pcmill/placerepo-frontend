@@ -3,6 +3,7 @@ import PageLayout from "../components/page-layout";
 import { QueueContext } from "../contexts/queue-context";
 import * as timeago from 'timeago.js';
 import { AuthContext } from "../contexts/auth-context";
+import MiniMap from "../components/mini-map";
 
 function QueueList() {
     const { queue, setQueue } = useContext(QueueContext);
@@ -30,6 +31,9 @@ function QueueList() {
                 'x-access-token': accessToken                    
             }
         });
+
+        // Remove from queue
+        setQueue(queue.filter(q => q.id !== id));
     };
 
     if (queue && queue.length > 0) {
@@ -51,9 +55,19 @@ function QueueList() {
                                             <p className="text-sm text-gray-500">{timeago.format(q.created)}</p>
                                         </div>
 
-                                        <p className="text-sm text-gray-500">
-                                            {q.request_type}
-                                        </p>
+                                        <div className="flex items-center">
+                                            <p className="text-md text-gray-700">
+                                                {q.request.name}
+                                            </p>
+
+                                            <p className="ml-auto text-sm text-gray-400">
+                                                {q.request_type}
+                                            </p>
+                                        </div>
+
+                                        {q.request.latitude && q.request.longitude && <div className="mt-2">
+                                            <MiniMap latitude={q.request.latitude} longitude={q.request.longitude} />
+                                        </div>}
 
                                         {user.level === 2 && <div className="mt-2">
                                             <button

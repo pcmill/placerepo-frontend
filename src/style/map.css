@@ -17,6 +17,12 @@
     height: 600px;
 }
 
+.map-mini {
+    position: relative;
+    width: 100%;
+    height: 300px;
+}
+
 .map {
     position: absolute;
     width: 100%;
