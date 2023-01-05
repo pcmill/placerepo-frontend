@@ -33,12 +33,6 @@ function ContinentDetails() {
         fetchContinent();
     }, [id, apiKey, setContinent]);
 
-    function updateTranslations(translation) {
-        const newContinent = { ...continent }
-        newContinent.translations.push(translation);
-        setContinent(newContinent);
-    }
-
     if (continent && defaultTranslation) {
         return (
             <PageLayout>
@@ -71,8 +65,7 @@ function ContinentDetails() {
                             <TranslationNew 
                                 placeholder="Africa" 
                                 entityId={{continent_id: id}}
-                                endpoint="/continent/translation"
-                                setEntity={(t) => updateTranslations(t)}/>
+                                requestType="add_continent_translation"/>
                         </Transition>
 
                         {continent.translations.map((tr) => (

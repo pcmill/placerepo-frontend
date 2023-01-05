@@ -37,12 +37,6 @@ function PlaceDetails() {
         fetchPlace();
     }, [id, apiKey, setPlace]);
 
-    function updateTranslations(translation) {
-        const newPlace = { ...place }
-        newPlace.translations.push(translation);
-        setPlace(newPlace);
-    }
-
     function updateMetadata(metadata) {
         setAddingMetaData(false);
         const newPlace = { ...place, ...metadata }
@@ -116,8 +110,7 @@ function PlaceDetails() {
                                 <TranslationNew 
                                     placeholder="New York" 
                                     entityId={{place_id: id}}
-                                    endpoint="/place/translation"
-                                    setEntity={(t) => updateTranslations(t)}/>
+                                    requestType="add_place_translation" />
                             </Transition>
 
                             {place.translations.map((tr) => (

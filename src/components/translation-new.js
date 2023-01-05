@@ -1,11 +1,12 @@
 import { Combobox } from "@headlessui/react";
 import { CheckIcon, LanguageIcon } from "@heroicons/react/24/outline";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../contexts/auth-context";
 
 function TranslationNew(props) {
     const placeholder = props.placeholder;
     const entityId = props.entityId;
-    const apiKey = localStorage.getItem('apiKey');
+    const { accessToken } = useContext(AuthContext); 
     const [languages, setLanguages] = useState([]);
     const [name, setName] = useState('');
     const [query, setQuery] = useState('');
@@ -49,31 +50,28 @@ function TranslationNew(props) {
         event.preventDefault();
 
         const body = {
-            ...entityId,
-            language_code: selectedLanguage.language_code,
-            name
+            changeRequest: {
+                type: props.requestType,
+                requestObject: {
+                    ...entityId,
+                    language_code: selectedLanguage.language_code,
+                    name
+                }
+            }
         }
 
-        const response = await fetch(`${process.env.REACT_APP_BACKEND}/v1${props.endpoint}`, {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND}/v1/queue`, {
             method: 'POST',
             body: JSON.stringify(body),
             headers: {
                 'content-type': 'application/json',
-                'x-api-key': apiKey
+                'x-access-token': accessToken
             }
         });
 
-        const json = await response.json();
+        await response.json();
 
         setName('');
-
-        // Send the result back up to be rendered by the details page.
-        props.setEntity({
-            id: json.translation_id,
-            name,
-            language_code: selectedLanguage.language_code,
-            language: selectedLanguage.description
-        });
     }
 
     return (

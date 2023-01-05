@@ -35,12 +35,6 @@ function CountryDetails() {
         fetchCountry();
     }, [id, apiKey, setCountry]);
 
-    function updateTranslations(translation) {
-        const newCountry = { ...country }
-        newCountry.translations.push(translation);
-        setCountry(newCountry);
-    }
-
     if (country && defaultTranslation) {
         return (
             <PageLayout>
@@ -71,8 +65,7 @@ function CountryDetails() {
                             <TranslationNew 
                                 placeholder="Kenya" 
                                 entityId={{country_id: id}}
-                                endpoint="/country/translation"
-                                setEntity={(t) => updateTranslations(t)} />
+                                requestType="add_country_translation"/>
                         </Transition>
 
                         {country.translations.map((tr) => (

@@ -34,12 +34,6 @@ function AdminDetails() {
         fetchAdmin();
     }, [id, apiKey, setAdmin]);
 
-    function updateTranslations(translation) {
-        const newAdmin = { ...admin }
-        newAdmin.translations.push(translation);
-        setAdmin(newAdmin);
-    }
-
     if (admin && defaultTranslation) {
         return (
             <PageLayout>
@@ -72,8 +66,7 @@ function AdminDetails() {
                             <TranslationNew
                                 placeholder="Alabama" 
                                 entityId={{[`admin_id`]: id}}
-                                endpoint="/admin/translation"
-                                setEntity={(t) => updateTranslations(t)}/>
+                                requestType="add_admin_translation"/>
                         </Transition>
 
                         {admin.translations.map((tr) => (
