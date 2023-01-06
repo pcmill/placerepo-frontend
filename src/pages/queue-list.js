@@ -57,12 +57,12 @@ function QueueList() {
 
                                         <div className="flex items-center">
                                             {q.place_name && <p className="text-md text-gray-600">
-                                                {q.place_name} =&nbsp;
+                                                {q.place_name}
                                             </p>}
 
-                                            <p className="text-md text-gray-700">
+                                            {q.request.name && <p className="text-md text-gray-700">
                                                 {q.request.name}
-                                            </p>
+                                            </p>}
                                             
                                             <p className="ml-auto text-sm text-gray-400">
                                                 {q.request_type}
@@ -70,9 +70,9 @@ function QueueList() {
                                         </div>
 
                                         <div className="flex items-center">
-                                            {q.language && <p className="text-sm text-gray-500">{q.language}</p>}
-                                            {q.admin_name && <p className="ml-2 text-sm text-gray-500">{q.admin_name}</p>}
-                                            {q.country_name && <p className="ml-2 text-sm text-gray-500">{q.country_name}</p>}
+                                            {q.language && <p className="mr-3 text-sm text-gray-500">{q.language}</p>}
+                                            {q.admin_name && <p className="mr-3 text-sm text-gray-500">{q.admin_name}</p>}
+                                            {q.country_name && <p className="text-sm text-gray-500">{q.country_name}</p>}
                                         </div>
 
                                         {q.request.latitude && q.request.longitude && <div className="mt-2">

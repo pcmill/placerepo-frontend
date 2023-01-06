@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import '../style/map.css';
-import { convertBounds, flipLatLng } from "../util/bounds";
-import Marker from "./marker";
+import '../../style/map.css';
+import { convertBounds, flipLatLng } from "../../util/bounds";
+import Marker from "../marker";
 
 function HomeMap() {
     const apiKey = localStorage.getItem('apiKey');

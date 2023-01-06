@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CenterMap from "../components/center-map";
+import CenterMap from "../components/map/center-map";
 import LoggedOut from "../components/logged-out";
 import PageLayout from "../components/page-layout";
 import { AuthContext } from "../contexts/auth-context";

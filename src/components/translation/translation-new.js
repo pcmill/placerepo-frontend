@@ -1,7 +1,7 @@
 import { Combobox } from "@headlessui/react";
 import { CheckIcon, LanguageIcon } from "@heroicons/react/24/outline";
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../contexts/auth-context";
+import { AuthContext } from "../../contexts/auth-context";
 
 function TranslationNew(props) {
     const placeholder = props.placeholder;

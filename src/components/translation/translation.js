@@ -1,7 +1,7 @@
 import { PencilIcon } from "@heroicons/react/20/solid";
 import { LanguageIcon } from "@heroicons/react/24/outline";
 import { useContext, useState } from "react";
-import { AuthContext } from "../contexts/auth-context";
+import { AuthContext } from "../../contexts/auth-context";
 import TranslationEdit from "./translation-edit";
 
 function Translation(props) {

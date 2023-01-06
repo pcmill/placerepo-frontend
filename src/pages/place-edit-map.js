@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import EditMap from "../components/edit-map";
+import EditMap from "../components/map/edit-map";
 import LoggedOut from "../components/logged-out";
 import PageLayout from "../components/page-layout";
 import { AuthContext } from "../contexts/auth-context";

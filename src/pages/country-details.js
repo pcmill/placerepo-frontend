@@ -4,8 +4,8 @@ import { useParams } from "react-router-dom";
 import AdminList from "../components/admin-list";
 import PageHeading from "../components/page-heading";
 import PageLayout from "../components/page-layout";
-import Translation from "../components/translation";
-import TranslationNew from "../components/translation-new";
+import Translation from "../components/translation/translation";
+import TranslationNew from "../components/translation/translation-new";
 import { AuthContext } from "../contexts/auth-context";
 import { CountryContext } from "../contexts/country-context";
 

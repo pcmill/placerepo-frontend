@@ -3,8 +3,8 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import AdminListByAdmin from "../components/admin-list-by-admin";
 import PageLayout from "../components/page-layout";
-import Translation from "../components/translation";
-import TranslationNew from "../components/translation-new";
+import Translation from "../components/translation/translation";
+import TranslationNew from "../components/translation/translation-new";
 import { AdminContext } from "../contexts/admin-context";
 import { AuthContext } from "../contexts/auth-context";
 

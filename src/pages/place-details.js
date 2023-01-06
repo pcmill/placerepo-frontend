@@ -2,11 +2,11 @@ import { Transition } from "@headlessui/react";
 import { BuildingLibraryIcon, BuildingOffice2Icon, BuildingOfficeIcon, ClockIcon, GlobeAltIcon, HomeIcon } from "@heroicons/react/24/outline";
 import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import DetailMap from "../components/detail-map";
+import DetailMap from "../components/map/detail-map";
 import MetadataEdit from "../components/metadata-edit";
 import PageLayout from "../components/page-layout";
-import Translation from "../components/translation";
-import TranslationNew from "../components/translation-new";
+import Translation from "../components/translation/translation";
+import TranslationNew from "../components/translation/translation-new";
 import { AuthContext } from "../contexts/auth-context";
 import { PlaceContext } from "../contexts/place-context";
 

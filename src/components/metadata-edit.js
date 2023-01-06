@@ -1,40 +1,38 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../contexts/auth-context";
 
 function MetadataEdit(props) {
-    const apiKey = localStorage.getItem('apiKey');
     const [place, setPlace] = useState(props.place);
+    const { accessToken } = useContext(AuthContext);
 
     async function saveMetadata(event) {
         event.preventDefault();
 
         const body = {
-            place_id: place.id,
-            country_id: place.country_id,
-            latitude: place.latitude,
-            longitude: place.longitude,
-            polygon: place.polygon,
-            admin_id: place.admin_id,
-            population: place.population,
-            population_approximate: place.population_approximate,
-            population_record_year: place.population_record_year,
-            wikidata_id: place.wikidata_id
+            changeRequest: {
+                type: 'update_place',
+                requestObject: {
+                    place_id: place.id,
+                    country_id: place.country_id,
+                    latitude: Number(place.latitude),
+                    longitude: Number(place.longitude),
+                    polygon: place.polygon,
+                    admin_id: place.admin_id,
+                    population: place.population,
+                    population_approximate: place.population_approximate,
+                    population_record_year: place.population_record_year,
+                    wikidata_id: place.wikidata_id
+                }
+            }
         }
 
-        await fetch(`${process.env.REACT_APP_BACKEND}/v1/place`, {
-            method: 'PUT',
+        await fetch(`${process.env.REACT_APP_BACKEND}/v1/queue`, {
+            method: 'POST',
             body: JSON.stringify(body),
             headers: {
                 'content-type': 'application/json',
-                'x-api-key': apiKey
+                'x-access-token': accessToken
             }
-        });
-
-        // Send the result back up to be rendered by the details page.
-        props.setEntity({
-            population: place.population,
-            population_approximate: place.population_approximate,
-            population_record_year: place.population_record_year,
-            wikidata_id: place.wikidata_id
         });
     }
 

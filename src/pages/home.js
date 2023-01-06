@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import HomeMap from "../components/home-map";
+import HomeMap from "../components/map/home-map";
 import { AuthContext } from "../contexts/auth-context";
 
 function Home() {

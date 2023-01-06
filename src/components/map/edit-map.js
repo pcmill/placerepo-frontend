@@ -3,8 +3,8 @@ import maplibregl from 'maplibre-gl';
 import mapboxGlDraw from "@mapbox/mapbox-gl-draw";
 import 'maplibre-gl/dist/maplibre-gl.css';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
-import '../style/map.css';
-import Marker from "./marker";
+import '../../style/map.css';
+import Marker from "../marker";
 
 function EditMap(props) {
     const mapContainer = useRef(null);
