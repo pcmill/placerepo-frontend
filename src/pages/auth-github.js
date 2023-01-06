@@ -5,7 +5,7 @@ import { AuthContext } from "../contexts/auth-context";
 function AuthGithub() {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
-    const { setUser } = useContext(AuthContext);
+    const { setUser, setAccessToken } = useContext(AuthContext);
 
     useEffect(() => {
         const fetchUserData = async (access_token) => {
@@ -17,8 +17,9 @@ function AuthGithub() {
             localStorage.setItem('accessToken', access_token);
 
             setUser(u);
+            setAccessToken(accessToken);
         }
-
+        
         const accessToken = searchParams.get('access_token');
 
         if (accessToken) {

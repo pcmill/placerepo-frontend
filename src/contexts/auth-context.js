@@ -9,7 +9,7 @@ export const AuthContext = createContext();
 export function AuthProvider({ children }) {
     const local = localStorage.getItem('user');
     const [user, setUser] = useState(JSON.parse(local));
-    const [accessToken] = useState(localStorage.getItem('accessToken'));
+    const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken'));
 
     function logout() {
         localStorage.removeItem('user');
@@ -21,6 +21,7 @@ export function AuthProvider({ children }) {
         setUser,
         user,
         accessToken,
+        setAccessToken,
         logout
     }
 
