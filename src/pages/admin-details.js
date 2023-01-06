@@ -71,7 +71,10 @@ function AdminDetails() {
 
                         {admin.translations.map((tr) => (
                             <li key={tr.id}>
-                                <Translation translation={tr} defaultTranslation={tr.id === defaultTranslation.id} />
+                                <Translation 
+                                    translation={tr}
+                                    requestType="update_admin_translation"
+                                    defaultTranslation={tr.id === defaultTranslation.id} />
                             </li>
                         ))}
                     </ul>

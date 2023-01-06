@@ -72,7 +72,7 @@ function ContinentDetails() {
                             <li key={tr.id}>
                                 <Translation
                                     translation={tr}
-                                    endpoint="/continent/translation"
+                                    requestType="update_continent_translation"
                                     placeholder="Africa"
                                     defaultTranslation={tr.id === defaultTranslation.id} />
                             </li>

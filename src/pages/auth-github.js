@@ -26,7 +26,7 @@ function AuthGithub() {
             fetchUserData(accessToken);
             navigate('/');
         }
-    }, [searchParams, setUser, navigate]);
+    }, [searchParams, setUser, setAccessToken, navigate]);
 }
 
 export default AuthGithub;

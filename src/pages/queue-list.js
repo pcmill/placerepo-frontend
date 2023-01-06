@@ -6,6 +6,7 @@ import AddPlaceQueue from "../components/queue/add-place";
 import * as timeago from 'timeago.js';
 import UpdatePlaceQueue from "../components/queue/update-place";
 import AddTranslationQueue from "../components/queue/translation";
+import EditTranslationQueue from "../components/queue/translation-edit";
 
 function QueueList() {
     const { queue, setQueue } = useContext(QueueContext);
@@ -60,6 +61,7 @@ function QueueList() {
                                         {q.request_type === 'add_place' && <AddPlaceQueue queueItem={q} />}
                                         {q.request_type === 'update_place' && <UpdatePlaceQueue queueItem={q} />}
                                         {q.request_type.startsWith('add') && q.request_type.endsWith('_translation') && <AddTranslationQueue queueItem={q} />}
+                                        {q.request_type.startsWith('update') && q.request_type.endsWith('_translation') && <EditTranslationQueue queueItem={q} />}
 
                                         {user.level === 2 && <div className="mt-2">
                                             <button

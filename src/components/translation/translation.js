@@ -10,8 +10,7 @@ function Translation(props) {
     const defaultTranslation = props.defaultTranslation || false;
     const { user } = useContext(AuthContext);
 
-    function updateTranslation(t) {
-        translation.name = t.name;
+    function updateTranslation() {
         setEditing(false);
     }
 
@@ -42,8 +41,8 @@ function Translation(props) {
             {editing && <TranslationEdit 
                 translation={translation}
                 placeholder={props.placeholder}
-                endpoint={props.endpoint}
-                setEntity={(t) => updateTranslation(t)}/>}
+                requestType={props.requestType}
+                setEntity={() => updateTranslation()}/>}
         </div>
     )
 }

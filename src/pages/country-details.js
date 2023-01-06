@@ -71,7 +71,7 @@ function CountryDetails() {
                         {country.translations.map((tr) => (
                             <li key={tr.id}>
                                 <Translation 
-                                    endpoint="/country/translation"
+                                    requestType="update_country_translation"
                                     translation={tr}
                                     placeholder="Kenya"
                                     defaultTranslation={tr.id === defaultTranslation.id} />

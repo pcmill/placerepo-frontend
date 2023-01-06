@@ -1,32 +1,36 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../contexts/auth-context";
 
 function TranslationEdit(props) {
     const translation = props.translation;
     const placeholder = props.placeholder;
-    const apiKey = localStorage.getItem('apiKey');
+    const { accessToken } = useContext(AuthContext);
     const [name, setName] = useState(translation.name);
 
     async function saveTranslation(event) {
         event.preventDefault();
 
         const body = {
-            translation_id: translation.id,
-            name
+              changeRequest: {
+                type: props.requestType,
+                requestObject: {
+                    translation_id: translation.id,
+                    name
+                }
+            }
         }
 
-        await fetch(`${process.env.REACT_APP_BACKEND}/v1${props.endpoint}`, {
-            method: 'PUT',
+        await fetch(`${process.env.REACT_APP_BACKEND}/v1/queue`, {
+            method: 'POST',
             body: JSON.stringify(body),
             headers: {
                 'content-type': 'application/json',
-                'x-api-key': apiKey
+                'x-access-token': accessToken
             }
         });
 
         // Send the result back up to be rendered by the details page.
-        props.setEntity({
-            name
-        });
+        props.setEntity();
     }
 
     function cancelEdit(event) {

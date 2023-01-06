@@ -117,7 +117,7 @@ function PlaceDetails() {
                                 <li key={tr.id}>
                                     <Translation 
                                         translation={tr}
-                                        endpoint="/place/translation"
+                                        requestType="update_place_translation"
                                         placeholder="New York" 
                                         defaultTranslation={tr.id === defaultTranslation.id} />
                                 </li>
