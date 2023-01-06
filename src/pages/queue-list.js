@@ -1,9 +1,11 @@
 import { useContext, useEffect } from "react";
 import PageLayout from "../components/page-layout";
 import { QueueContext } from "../contexts/queue-context";
-import * as timeago from 'timeago.js';
 import { AuthContext } from "../contexts/auth-context";
-import MiniMap from "../components/mini-map";
+import AddPlaceQueue from "../components/queue/add-place";
+import * as timeago from 'timeago.js';
+import UpdatePlaceQueue from "../components/queue/update-place";
+import AddTranslationQueue from "../components/queue/translation";
 
 function QueueList() {
     const { queue, setQueue } = useContext(QueueContext);
@@ -55,29 +57,9 @@ function QueueList() {
                                             <p className="text-sm text-gray-500">{timeago.format(q.created)}</p>
                                         </div>
 
-                                        <div className="flex items-center">
-                                            {q.place_name && <p className="text-md text-gray-600">
-                                                {q.place_name}
-                                            </p>}
-
-                                            {q.request.name && <p className="text-md text-gray-700">
-                                                {q.request.name}
-                                            </p>}
-                                            
-                                            <p className="ml-auto text-sm text-gray-400">
-                                                {q.request_type}
-                                            </p>
-                                        </div>
-
-                                        <div className="flex items-center">
-                                            {q.language && <p className="mr-3 text-sm text-gray-500">{q.language}</p>}
-                                            {q.admin_name && <p className="mr-3 text-sm text-gray-500">{q.admin_name}</p>}
-                                            {q.country_name && <p className="text-sm text-gray-500">{q.country_name}</p>}
-                                        </div>
-
-                                        {q.request.latitude && q.request.longitude && <div className="mt-2">
-                                            <MiniMap latitude={q.request.latitude} longitude={q.request.longitude} />
-                                        </div>}
+                                        {q.request_type === 'add_place' && <AddPlaceQueue queueItem={q} />}
+                                        {q.request_type === 'update_place' && <UpdatePlaceQueue queueItem={q} />}
+                                        {q.request_type.startsWith('add') && q.request_type.endsWith('_translation') && <AddTranslationQueue queueItem={q} />}
 
                                         {user.level === 2 && <div className="mt-2">
                                             <button
