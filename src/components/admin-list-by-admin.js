@@ -2,23 +2,18 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function AdminListByAdmin(props) {
-    const apiKey = localStorage.getItem('apiKey');
     const [admins, setAdmins] = useState([]);
 
     useEffect(() => {
         const fetchAdmins = async () => {
-            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/admin/list/${props.adminId}`, {
-                headers: {
-                    'x-api-key': apiKey
-                }
-            });
+            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/admin/list/${props.adminId}`);
 
             const a = await data.json();
             setAdmins(a);
         }
 
         fetchAdmins();
-    }, [apiKey, props.adminId]);
+    }, [props.adminId]);
 
     if (admins && admins.length) {
         return (
@@ -56,7 +51,7 @@ function AdminListByAdmin(props) {
                     Admins
                 </h2>
 
-                <p className="mt-2 text-gray-700">No more admins founds.</p>
+                <p className="mt-2 text-gray-700">No more admins found.</p>
             </>
         );
     }

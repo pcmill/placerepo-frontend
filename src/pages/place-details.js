@@ -12,7 +12,6 @@ import { PlaceContext } from "../contexts/place-context";
 
 function PlaceDetails() {
     const { id } = useParams();
-    const apiKey = localStorage.getItem('apiKey');
     const { place, setPlace } = useContext(PlaceContext);
     const [addingTranslation, setAddingTranslation] = useState(false);
     const [addingMetadata, setAddingMetaData] = useState(false);
@@ -21,11 +20,7 @@ function PlaceDetails() {
 
     useEffect(() => {
         const fetchPlace = async () => {
-            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/place/${id}`, {
-                headers: {
-                    'x-api-key': apiKey
-                }
-            });
+            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/place/${id}`);
 
             const c = await data.json();
             setPlace(c);
@@ -35,7 +30,7 @@ function PlaceDetails() {
         }
 
         fetchPlace();
-    }, [id, apiKey, setPlace]);
+    }, [id, setPlace]);
 
     function updateMetadata(metadata) {
         setAddingMetaData(false);

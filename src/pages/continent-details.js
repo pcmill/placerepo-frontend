@@ -9,7 +9,6 @@ import { ContinentContext } from "../contexts/continent-context";
 
 function ContinentDetails() {
     const { id } = useParams();
-    const apiKey = localStorage.getItem('apiKey');
     const { continent, setContinent } = useContext(ContinentContext);
     const [addingTranslation, setAddingTranslation] = useState(false);
     const [defaultTranslation, setDefaultTranslations] = useState(null);
@@ -17,11 +16,7 @@ function ContinentDetails() {
 
     useEffect(() => {
         const fetchContinent = async () => {
-            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/continent/${id}`, {
-                headers: {
-                    'x-api-key': apiKey
-                }
-            });
+            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/continent/${id}`);
 
             const c = await data.json();
             setContinent(c);
@@ -31,7 +26,7 @@ function ContinentDetails() {
         }
 
         fetchContinent();
-    }, [id, apiKey, setContinent]);
+    }, [id, setContinent]);
 
     if (continent && defaultTranslation) {
         return (

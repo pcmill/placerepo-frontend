@@ -3,23 +3,18 @@ import { Link } from "react-router-dom";
 import PageLayout from "../components/page-layout";
 
 function CountryList() {
-    const apiKey = localStorage.getItem('apiKey');
     const [countries, setCountries] = useState([]);
 
     useEffect(() => {
         const fetchCountries = async () => {
-            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/country`, {
-                headers: {
-                    'x-api-key': apiKey
-                }
-            });
+            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/country`);
 
             const c = await data.json();
             setCountries(c);
         }
 
         fetchCountries();
-    }, [apiKey]);
+    }, []);
 
     if (countries) {
         return (

@@ -3,23 +3,18 @@ import { Link } from "react-router-dom";
 import PageLayout from "../components/page-layout";
 
 function ContinentList() {
-    const apiKey = localStorage.getItem('apiKey');
     const [continents, setContinents] = useState([]);
 
     useEffect(() => {
         const fetchContinents = async () => {
-            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/continent`, {
-                headers: {
-                    'x-api-key': apiKey
-                }
-            });
+            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/continent`);
 
             const c = await data.json();
             setContinents(c);
         }
 
         fetchContinents();
-    }, [apiKey]);
+    }, []);
 
     if (continents) {
         return (

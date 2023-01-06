@@ -6,7 +6,6 @@ import { convertBounds, flipLatLng } from "../../util/bounds";
 import Marker from "../marker";
 
 function CenterMap(props) {
-    const apiKey = localStorage.getItem('apiKey');
     const mapContainer = useRef(null);
     const map = useRef(null);
     const [API_KEY] = useState('dyK35oSh2RzcM1TQJdy8');
@@ -49,7 +48,7 @@ function CenterMap(props) {
             const cBounds = convertBounds(bounds);
             localStorage.setItem('bounds', JSON.stringify(cBounds));
         });
-    }, [bounds, apiKey, API_KEY, props]);
+    }, [bounds, API_KEY, props]);
 
     return (
         <div className="map-inline">

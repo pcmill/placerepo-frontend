@@ -12,18 +12,13 @@ import { CountryContext } from "../contexts/country-context";
 function CountryDetails() {
     const { id } = useParams();
     const { country, setCountry } = useContext(CountryContext);
-    const apiKey = localStorage.getItem('apiKey');
     const [addingTranslation, setAddingTranslation] = useState(false);
     const [defaultTranslation, setDefaultTranslations] = useState(null);
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
         const fetchCountry = async () => {
-            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/country/${id}`, {
-                headers: {
-                    'x-api-key': apiKey
-                }
-            });
+            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/country/${id}`);
 
             const c = await data.json();
             setCountry(c);
@@ -33,7 +28,7 @@ function CountryDetails() {
         }
 
         fetchCountry();
-    }, [id, apiKey, setCountry]);
+    }, [id, setCountry]);
 
     if (country && defaultTranslation) {
         return (

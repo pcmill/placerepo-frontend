@@ -16,11 +16,7 @@ function PlaceEditMap() {
 
     useEffect(() => {
         const fetchPlace = async () => {
-            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/place/${id}`, {
-                headers: {
-                    'x-api-key': apiKey
-                }
-            });
+            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/place/${id}`);
 
             const c = await data.json();
             setPlace(c);
@@ -30,7 +26,7 @@ function PlaceEditMap() {
         }
 
         fetchPlace();
-    }, [id, apiKey, setPlace]);
+    }, [id, setPlace]);
 
     async function savePlace(event) {
         event.preventDefault();

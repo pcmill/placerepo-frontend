@@ -6,7 +6,6 @@ import { convertBounds, flipLatLng } from "../../util/bounds";
 import Marker from "../marker";
 
 function HomeMap() {
-    const apiKey = localStorage.getItem('apiKey');
     const mapContainer = useRef(null);
     const map = useRef(null);
     const [API_KEY] = useState('dyK35oSh2RzcM1TQJdy8');
@@ -31,17 +30,17 @@ function HomeMap() {
         map.current.on('load', async () => {
             const bounds = map.current.getBounds();
             const cBounds = convertBounds(bounds);
-            await fetchPlaces(cBounds, apiKey, setPlaces);
+            await fetchPlaces(cBounds, setPlaces);
         });
 
         map.current.on('moveend', async () => {
             const bounds = map.current.getBounds();
             const cBounds = convertBounds(bounds);
-            await fetchPlaces(cBounds, apiKey, setPlaces);
+            await fetchPlaces(cBounds, setPlaces);
 
             localStorage.setItem('bounds', JSON.stringify(cBounds));
         });
-    }, [bounds, apiKey, API_KEY]);
+    }, [bounds, API_KEY]);
 
     useEffect(() => {
         if (places && places.length > 0) {
@@ -85,7 +84,7 @@ function HomeMap() {
     )
 }
 
-async function fetchPlaces(currentBounds, apiKey, setPlaces) {
+async function fetchPlaces(currentBounds, setPlaces) {
     const body = JSON.stringify({
         "boundingbox": currentBounds
     });
@@ -94,7 +93,6 @@ async function fetchPlaces(currentBounds, apiKey, setPlaces) {
         method: 'POST',
         body: body,
         headers: {
-            'x-api-key': apiKey,
             'content-type': 'application/json',
         }
     });

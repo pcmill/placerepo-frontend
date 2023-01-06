@@ -2,23 +2,18 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function AdminList(props) {
-    const apiKey = localStorage.getItem('apiKey');
     const [admins, setAdmins] = useState([]);
 
     useEffect(() => {
         const fetchAdmins = async () => {
-            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/admin/country/${props.countryId}`, {
-                headers: {
-                    'x-api-key': apiKey
-                }
-            });
+            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/admin/country/${props.countryId}`);
 
             const a = await data.json();
             setAdmins(a);
         }
 
         fetchAdmins();
-    }, [apiKey, props.countryId]);
+    }, [props.countryId]);
 
     if (admins && admins.length) {
         return (
