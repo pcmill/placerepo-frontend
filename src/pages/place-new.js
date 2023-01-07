@@ -5,6 +5,7 @@ import LoggedOut from "../components/logged-out";
 import PageLayout from "../components/page-layout";
 import { AuthContext } from "../contexts/auth-context";
 import { roundTo } from "../util/number";
+import { XCircleIcon } from "@heroicons/react/24/outline";
 
 function PlaceNew() {
     const [form, setForm] = useState({
@@ -33,6 +34,10 @@ function PlaceNew() {
             firstAdmins.length > 0 &&
             secondAdmins && 
             secondAdmins.length > 0;
+    }
+
+    function activateSubmitButton() {
+        return form.name && form.latitude && form.longitude && form.country_id;
     }
 
     useEffect(() => {
@@ -243,14 +248,34 @@ function PlaceNew() {
                     </div>}
                 </section>
 
+                {!activateSubmitButton() && <section>
+                    <div className="mt-4 rounded-md bg-red-50 p-4">
+                        <div className="flex">
+                            <div className="flex-shrink-0">
+                                <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />
+                            </div>
+
+                            <div className="ml-3">
+                                <h3 className="text-sm font-medium text-red-800">There are some errors.</h3>
+
+                                <div className="mt-2 text-sm text-red-700">
+                                    <ul role="list" className="list-disc space-y-1 pl-5">
+                                        {(!form.latitude || !form.longitude) && <li>Drag the marker on the to set the latitude and longitude.</li>}
+                                        {(!form.name) && <li>The name should be at least 1 character.</li>}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>}
+
                 <button
                     type="submit"
-                    className="mt-4 inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    disabled={!activateSubmitButton()}
+                    className="mt-4 inline-flex items-center rounded-md border border-transparent disabled:bg-gray-300 bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
                     Create new place
                 </button>
-
-                <div><pre>{JSON.stringify(form, null, 2) }</pre></div>
             </form>}
         </PageLayout>
     )
