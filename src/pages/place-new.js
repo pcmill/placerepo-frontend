@@ -45,11 +45,16 @@ function PlaceNew() {
             const c = await fetch(`${process.env.REACT_APP_BACKEND}/v1/country`);
             const json = await c.json();
 
-            // Reset the admins if they where already set
-            setFirstAdmins([]);
-            setSecondAdmins([]);
-
             setCountries(json);
+
+            const lastUsedCountry = localStorage.getItem('lastUsedCountry');
+
+            setForm(prevState => {
+                return {
+                    ...prevState,
+                    country_id: (lastUsedCountry || json[0].id)
+                }
+            });
         }
 
         fetchCountries();
@@ -100,6 +105,10 @@ function PlaceNew() {
                 [event.target.id]: event.target.value
             }
         });
+
+        if (event.target.id === 'country_id') {
+            localStorage.setItem('lastUsedCountry', event.target.value);
+        }
     };
 
     const setLatLng = (latlng) => {
@@ -259,8 +268,8 @@ function PlaceNew() {
                                 <h3 className="text-sm font-medium text-red-800">There are some errors.</h3>
 
                                 <div className="mt-2 text-sm text-red-700">
-                                    <ul role="list" className="list-disc space-y-1 pl-5">
-                                        {(!form.latitude || !form.longitude) && <li>Drag the marker on the to set the latitude and longitude.</li>}
+                                    <ul className="list-disc space-y-1 pl-5">
+                                        {(!form.latitude || !form.longitude) && <li>Drag the marker on the map to set the latitude and longitude.</li>}
                                         {(!form.name) && <li>The name should be at least 1 character.</li>}
                                     </ul>
                                 </div>
