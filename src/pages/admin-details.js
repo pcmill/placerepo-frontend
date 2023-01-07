@@ -10,7 +10,6 @@ import { AuthContext } from "../contexts/auth-context";
 
 function AdminDetails() {
     const { id } = useParams();
-    const apiKey = localStorage.getItem('apiKey');
     const { admin, setAdmin } = useContext(AdminContext);
     const [addingTranslation, setAddingTranslation] = useState(false);
     const [defaultTranslation, setDefaultTranslations] = useState(null);
@@ -18,11 +17,7 @@ function AdminDetails() {
 
     useEffect(() => {
         const fetchAdmin = async () => {
-            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/admin/${id}`, {
-                headers: {
-                    'x-api-key': apiKey
-                }
-            });
+            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/admin/${id}`);
 
             const c = await data.json();
             setAdmin(c);
@@ -32,7 +27,7 @@ function AdminDetails() {
         }
 
         fetchAdmin();
-    }, [id, apiKey, setAdmin]);
+    }, [id, setAdmin]);
 
     if (admin && defaultTranslation) {
         return (
