@@ -76,7 +76,12 @@ function PlaceNew() {
                 const json = await c.json();
     
                 setFirstAdmins(json);
-                setSelectFirstAdmin(json[0].id);
+
+                if (json.length > 0) {
+                    setSelectFirstAdmin(json[0].id);
+                } else {
+                    setSelectFirstAdmin(null);
+                }
             }
     
             setSecondAdmins([]);
@@ -91,10 +96,17 @@ function PlaceNew() {
                 const json = await c.json();
     
                 setSecondAdmins(json);
-                setSelectSecondAdmin(json[0].id);
+
+                if (json.length > 0) {
+                    setSelectSecondAdmin(json[0].id);
+                } else {
+                    setSelectSecondAdmin(null);
+                }
             }
     
             fetchSecondAdmin();
+        } else {
+            setSelectSecondAdmin(null);
         }
     }, [selectFirstAdmin]);
 
