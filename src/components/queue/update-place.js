@@ -68,12 +68,20 @@ function UpdatePlaceQueue(props) {
                 </dl>
             </div>
 
-            {q.request.latitude && q.request.longitude && <div className="mt-2">
+            {q.request.latitude && q.request.longitude && q.request.polygon && <div className="mt-4">
                 <MiniMap
                     latitude={q.request.latitude}
                     longitude={q.request.longitude} 
                     oldPolygon={q.place.polygon}
                     newPolygon={q.request.polygon} />
+            </div>}
+
+            {q.request.latitude && q.request.longitude && 
+                q.place.latitude !== q.request.latitude && 
+                q.place.longitude !== q.request.longitude && <div className="mt-4">
+                <MiniMap
+                    latitude={q.request.latitude}
+                    longitude={q.request.longitude} />
             </div>}
         </>
     )

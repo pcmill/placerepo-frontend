@@ -5,7 +5,7 @@ function MetadataEdit(props) {
     const [place, setPlace] = useState(props.place);
     const { accessToken } = useContext(AuthContext);
 
-    async function saveMetadata(event) {
+    async function saveWikidataID(event) {
         event.preventDefault();
 
         const body = {
@@ -13,15 +13,32 @@ function MetadataEdit(props) {
                 type: 'update_place',
                 requestObject: {
                     place_id: place.id,
-                    country_id: place.country_id,
-                    latitude: Number(place.latitude),
-                    longitude: Number(place.longitude),
-                    polygon: place.polygon,
-                    admin_id: place.admin_id,
+                    wikidata_id: place.wikidata_id
+                }
+            }
+        }
+
+        await fetch(`${process.env.REACT_APP_BACKEND}/v1/queue`, {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+                'content-type': 'application/json',
+                'x-access-token': accessToken
+            }
+        });
+    }
+
+    async function savePopulation(event) {
+        event.preventDefault();
+
+        const body = {
+            changeRequest: {
+                type: 'update_place',
+                requestObject: {
+                    place_id: place.id,
                     population: place.population,
                     population_approximate: place.population_approximate,
                     population_record_year: place.population_record_year,
-                    wikidata_id: place.wikidata_id
                 }
             }
         }
@@ -57,7 +74,7 @@ function MetadataEdit(props) {
 
     return (
         <div className="divide-y divide-gray-200">
-            <form onSubmit={(e) => saveMetadata(e)} className="px-6 py-4">
+            <form onSubmit={(e) => savePopulation(e)} className="px-6 py-4">
                 <p className="mb-2 truncate text-sm font-medium text-grey-400">Edit population</p>
 
                 <div className="flex w-full flex-col">
@@ -129,7 +146,7 @@ function MetadataEdit(props) {
                 </div>
             </form>
 
-            <form onSubmit={(e) => saveMetadata(e)} className="flex flex-col px-6 py-4">
+            <form onSubmit={(e) => saveWikidataID(e)} className="flex flex-col px-6 py-4">
                 <p className="mb-2 truncate text-sm font-medium text-grey-400">Edit Wikidata ID</p>
 
                 <div className="flex flex-col">
