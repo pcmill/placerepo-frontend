@@ -1,4 +1,4 @@
-import MiniMap from "../mini-map";
+import MiniMap from "../map/mini-map";
 
 function AddPlaceQueue(props) {
     const q = props.queueItem;

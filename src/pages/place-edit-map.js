@@ -8,8 +8,8 @@ import { PlaceContext } from "../contexts/place-context";
 
 function PlaceEditMap() {
     const { id } = useParams();
-    const apiKey = localStorage.getItem('apiKey');
     const navigate = useNavigate();
+    const { accessToken } = useContext(AuthContext);
     const { place, setPlace } = useContext(PlaceContext);
     const [defaultTranslation, setDefaultTranslations] = useState(null);
     const { user } = useContext(AuthContext);
@@ -32,20 +32,25 @@ function PlaceEditMap() {
         event.preventDefault();
 
         const body = {
-            place_id: place.id,
-            country_id: place.country_id,
-            latitude: place.latitude,
-            longitude: place.longitude,
-            polygon: place.polygon,
-            admin_id: place.admin_id
+            changeRequest: {
+                type: 'update_place',
+                requestObject: {
+                    place_id: place.id,
+                    country_id: place.country_id,
+                    latitude: Number(place.latitude),
+                    longitude: Number(place.longitude),
+                    polygon: place.polygon,
+                    admin_id: place.admin_id
+                }
+            }
         }
 
-        const response = await fetch(`${process.env.REACT_APP_BACKEND}/v1/place`, {
-            method: 'PUT',
+        const response = await fetch(`${process.env.REACT_APP_BACKEND}/v1/queue`, {
+            method: 'POST',
             body: JSON.stringify(body),
             headers: {
                 'content-type': 'application/json',
-                'x-api-key': apiKey
+                'x-access-token': accessToken
             }
         });
 
