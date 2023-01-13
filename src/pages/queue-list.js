@@ -7,10 +7,12 @@ import * as timeago from 'timeago.js';
 import UpdatePlaceQueue from "../components/queue/update-place";
 import AddTranslationQueue from "../components/queue/translation";
 import EditTranslationQueue from "../components/queue/translation-edit";
+import { NotificationContext } from "../contexts/notification-context";
 
 function QueueList() {
     const { queue, setQueue } = useContext(QueueContext);
     const { accessToken, user } = useContext(AuthContext);
+    const { addNotification } = useContext(NotificationContext);
 
     useEffect(() => {
         const fetchQueue = async () => {
@@ -24,7 +26,7 @@ function QueueList() {
     }, [setQueue]);
 
     const handleStatus = async (id, status) => {
-        await fetch(`${process.env.REACT_APP_BACKEND}/v1/queue/status/${id}`, {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND}/v1/queue/status/${id}`, {
             method: 'POST',
             body: JSON.stringify({
                 status: Number(status),
@@ -35,8 +37,14 @@ function QueueList() {
             }
         });
 
-        // Remove from queue
-        setQueue(queue.filter(q => q.id !== id));
+        if (res.status === 200) {
+            addNotification('success', 'Queue item updated');
+
+            // Remove from queue
+            setQueue((prev) => prev.filter((q) => q.id !== id));
+        } else {
+            addNotification('error', 'Could not update queue item');
+        }
     };
 
     if (queue && queue.length > 0) {
