@@ -13,9 +13,9 @@ export default function NotificationProvider({ children }) {
 
     const contextValue = {
         notificationList,
-        addNotification: (type, message) => {
+        addNotification: (type, message, time = 5000) => {
             const id = generateId(6);
-            setNotificationList((prev) => [...prev, { id, message, type }]);
+            setNotificationList((prev) => [...prev, { id, message, type, time }]);
         },
         removeNotification: (id) => {
             if (id && notificationList.length > 0) {

@@ -2,11 +2,13 @@ import { Combobox } from "@headlessui/react";
 import { CheckIcon, LanguageIcon } from "@heroicons/react/24/outline";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/auth-context";
+import { NotificationContext } from "../../contexts/notification-context";
 
 function TranslationNew(props) {
     const placeholder = props.placeholder;
     const entityId = props.entityId;
-    const { accessToken } = useContext(AuthContext); 
+    const { accessToken } = useContext(AuthContext);
+    const { addNotification } = useContext(NotificationContext);
     const [languages, setLanguages] = useState([]);
     const [name, setName] = useState('');
     const [query, setQuery] = useState('');
@@ -69,7 +71,11 @@ function TranslationNew(props) {
             }
         });
 
-        await response.json();
+        if (response.ok) {
+            addNotification('success', 'Your new translation has been added to the queue. It will be processed as soon as possible.', 10000);
+        } else {
+            addNotification('error', 'There was a problem saving your translation. Please try again later.', 5000);
+        }
 
         setName('');
     }

@@ -37,8 +37,8 @@ function QueueList() {
             }
         });
 
-        if (res.status === 200) {
-            addNotification('success', 'Queue item updated');
+        if (res.ok) {
+            addNotification('success', 'Queue item updated', 5000);
 
             // Remove from queue
             setQueue((prev) => prev.filter((q) => q.id !== id));

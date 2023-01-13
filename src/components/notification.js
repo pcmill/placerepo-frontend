@@ -7,7 +7,7 @@ import { NotificationContext } from "../contexts/notification-context";
 function Notification({ notification }) {
     const { removeNotification } = useContext(NotificationContext);
     console.log(notification);
-    const { id, message, type } = notification;
+    const { id, message, type, time } = notification;
     const [show, setShow] = useState(false);
 
     function displayType(type) {
@@ -27,10 +27,10 @@ function Notification({ notification }) {
     useEffect(() => {
         const timeout = setTimeout(() => {
             removeNotification(id);
-        }, 5000);
+        }, time);
 
         return () => clearTimeout(timeout);
-    }, [id, removeNotification]);
+    }, [id, time, removeNotification]);
 
     return (
         <Transition

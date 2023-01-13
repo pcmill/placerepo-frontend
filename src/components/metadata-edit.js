@@ -1,9 +1,11 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../contexts/auth-context";
+import { NotificationContext } from "../contexts/notification-context";
 
 function MetadataEdit(props) {
     const [place, setPlace] = useState(props.place);
     const { accessToken } = useContext(AuthContext);
+    const { addNotification } = useContext(NotificationContext);
 
     async function saveWikidataID(event) {
         event.preventDefault();
@@ -43,7 +45,7 @@ function MetadataEdit(props) {
             }
         }
 
-        await fetch(`${process.env.REACT_APP_BACKEND}/v1/queue`, {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND}/v1/queue`, {
             method: 'POST',
             body: JSON.stringify(body),
             headers: {
@@ -51,6 +53,12 @@ function MetadataEdit(props) {
                 'x-access-token': accessToken
             }
         });
+
+        if (res.ok) {
+            addNotification('success', 'Your data change has been added to the queue. It will be processed as soon as possible.', 10000);
+        } else {
+            addNotification('error', 'There was a problem saving your change. Please try again later.', 5000);
+        }
     }
 
     function convertToBoolean(value) {

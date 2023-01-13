@@ -51,14 +51,9 @@ function PlaceDetails() {
                         {place.country_name}
                     </span>
 
-                    {place.admin_4_name && <div className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
-                        <BuildingLibraryIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                        Admin 4 - {place.admin_4_name}
-                    </div>}
-
-                    {place.admin_3_name && <div className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
-                        <BuildingOffice2Icon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                        Admin 3 - {place.admin_3_name}
+                    {place.admin_1_name && <div className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
+                        <HomeIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
+                        Admin 1 - {place.admin_1_name}
                     </div>}
 
                     {place.admin_2_name && <div className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
@@ -66,9 +61,14 @@ function PlaceDetails() {
                         Admin 2 - {place.admin_2_name}
                     </div>}
 
-                    {place.admin_1_name && <div className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
-                        <HomeIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                        Admin 1 - {place.admin_1_name}
+                    {place.admin_3_name && <div className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
+                        <BuildingOffice2Icon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
+                        Admin 3 - {place.admin_3_name}
+                    </div>}
+
+                    {place.admin_4_name && <div className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
+                        <BuildingLibraryIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
+                        Admin 4 - {place.admin_4_name}
                     </div>}
                 </section>
 

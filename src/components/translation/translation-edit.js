@@ -1,10 +1,12 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/auth-context";
+import { NotificationContext } from "../../contexts/notification-context";
 
 function TranslationEdit(props) {
     const translation = props.translation;
     const placeholder = props.placeholder;
     const { accessToken } = useContext(AuthContext);
+    const { addNotification } = useContext(NotificationContext);
     const [name, setName] = useState(translation.name);
 
     async function saveTranslation(event) {
@@ -20,7 +22,7 @@ function TranslationEdit(props) {
             }
         }
 
-        await fetch(`${process.env.REACT_APP_BACKEND}/v1/queue`, {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND}/v1/queue`, {
             method: 'POST',
             body: JSON.stringify(body),
             headers: {
@@ -28,6 +30,12 @@ function TranslationEdit(props) {
                 'x-access-token': accessToken
             }
         });
+
+        if (res.ok) {
+            addNotification('success', 'Your translation change has been added to the queue. It will be processed as soon as possible.', 10000);
+        } else {
+            addNotification('error', 'There was a problem saving your translation change. Please try again later.', 5000);
+        }
 
         // Send the result back up to be rendered by the details page.
         props.setEntity();

@@ -1,29 +1,31 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import CenterMap from "../components/map/center-map";
 import LoggedOut from "../components/logged-out";
 import PageLayout from "../components/page-layout";
 import { AuthContext } from "../contexts/auth-context";
+import { NotificationContext } from "../contexts/notification-context";
 import { roundTo } from "../util/number";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 
 function PlaceNew() {
-    const [form, setForm] = useState({
+    const emptyForm = {
         language_code: 'en',
         name: '',
         latitude: null,
         longitude: null,
         admin_id: null,
         country_id: null
-    });
+    };
+
+    const [form, setForm] = useState(emptyForm);
 
     const [countries, setCountries] = useState([]);
     const [firstAdmins, setFirstAdmins] = useState([]);
     const [secondAdmins, setSecondAdmins] = useState([]);
     const [selectFirstAdmin, setSelectFirstAdmin] = useState(null);
     const [selectSecondAdmin, setSelectSecondAdmin] = useState(null);
-    const { user, accessToken } = useContext(AuthContext); 
-    const navigate = useNavigate();
+    const { user, accessToken } = useContext(AuthContext);
+    const { addNotification } = useContext(NotificationContext);
 
     function showFirstAdmin () {
         return firstAdmins && firstAdmins.length > 0;
@@ -155,7 +157,11 @@ function PlaceNew() {
         await response.json();
 
         if (response.ok) {
-            navigate('/');
+            addNotification('success', 'Your request has been added to the queue. It will be processed as soon as possible.', 10000);
+            setForm(emptyForm);
+            window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' })
+        } else {
+            addNotification('error', 'An error occurred. Please try again later.', 5000);
         }
     };
 

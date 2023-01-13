@@ -5,12 +5,14 @@ import LoggedOut from "../components/logged-out";
 import PageLayout from "../components/page-layout";
 import { AuthContext } from "../contexts/auth-context";
 import { PlaceContext } from "../contexts/place-context";
+import { NotificationContext } from "../contexts/notification-context";
 
 function PlaceEditMap() {
     const { id } = useParams();
     const navigate = useNavigate();
     const { accessToken } = useContext(AuthContext);
     const { place, setPlace } = useContext(PlaceContext);
+    const { addNotification } = useContext(NotificationContext);
     const [defaultTranslation, setDefaultTranslations] = useState(null);
     const { user } = useContext(AuthContext);
 
@@ -55,7 +57,10 @@ function PlaceEditMap() {
         });
 
         if (response.ok) {
+            addNotification('success', 'Your polygon change has been added to the queue. It will be processed as soon as possible.', 10000);
             navigate(`/place/${place.id}`);
+        } else {
+            addNotification('error', 'There was a problem saving your polygon change. Please try again later.', 5000);
         }
     }
 
