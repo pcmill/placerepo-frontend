@@ -22,8 +22,10 @@ function PlaceNew() {
     const [countries, setCountries] = useState([]);
     const [firstAdmins, setFirstAdmins] = useState([]);
     const [secondAdmins, setSecondAdmins] = useState([]);
+    const [thirdAdmins, setThirdAdmins] = useState([]);
     const [selectFirstAdmin, setSelectFirstAdmin] = useState(null);
     const [selectSecondAdmin, setSelectSecondAdmin] = useState(null);
+    const [selectThirdAdmin, setSelectThirdAdmin] = useState(null);
     const { user, accessToken } = useContext(AuthContext);
     const { addNotification } = useContext(NotificationContext);
 
@@ -36,6 +38,15 @@ function PlaceNew() {
             firstAdmins.length > 0 &&
             secondAdmins && 
             secondAdmins.length > 0;
+    }
+
+    function showThirdAdmin () {
+        return firstAdmins &&
+            firstAdmins.length > 0 &&
+            secondAdmins &&
+            secondAdmins.length > 0 &&
+            thirdAdmins &&
+            thirdAdmins.length > 0;
     }
 
     function activateSubmitButton() {
@@ -63,13 +74,23 @@ function PlaceNew() {
     }, []);
 
     useEffect(() => {
+        let admin_id = null;
+
+        if (selectThirdAdmin) {
+            admin_id = selectThirdAdmin;
+        } else if (selectSecondAdmin) {
+            admin_id = selectSecondAdmin;
+        } else if (selectFirstAdmin) {
+            admin_id = selectFirstAdmin;
+        }
+
         setForm(prevState => {
             return {
                 ...prevState,
-                admin_id: selectSecondAdmin ? selectSecondAdmin : selectFirstAdmin
+                admin_id
             }
         });
-    }, [selectFirstAdmin, selectSecondAdmin]);
+    }, [selectFirstAdmin, selectSecondAdmin, selectThirdAdmin]);
 
     useEffect(() => {
         if (form.country_id) {
@@ -111,6 +132,27 @@ function PlaceNew() {
             setSelectSecondAdmin(null);
         }
     }, [selectFirstAdmin]);
+
+    useEffect(() => {
+        if (selectSecondAdmin) {
+            const fetchThirdAdmin = async () => {
+                const c = await fetch(`${process.env.REACT_APP_BACKEND}/v1/admin/list/${selectSecondAdmin}`);
+                const json = await c.json();
+    
+                setThirdAdmins(json);
+
+                if (json.length > 0) {
+                    setSelectThirdAdmin(json[0].id);
+                } else {
+                    setSelectThirdAdmin(null);
+                }
+            }
+    
+            fetchThirdAdmin();
+        } else {
+            setSelectThirdAdmin(null);
+        }
+    }, [selectSecondAdmin]);
 
     const handleChange = (event) => {
         setForm(prevState => {
@@ -248,6 +290,24 @@ function PlaceNew() {
                         onChange={(event) => {setSelectSecondAdmin(event.target.value)}}
                     >
                         {secondAdmins.length && secondAdmins.map((admin) => (
+                            <option key={admin.id} value={admin.id}>{admin.name}</option>
+                        ))}
+                    </select>
+                </section>}
+
+                {showThirdAdmin() && <section className="mt-4">
+                    <label htmlFor="location" className="block text-md font-medium text-gray-700">
+                        Third level admin
+                    </label>
+
+                    <select
+                        id="admin_id"
+                        name="admin_id"
+                        className="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                        value={selectThirdAdmin || ''}
+                        onChange={(event) => {setSelectThirdAdmin(event.target.value)}}
+                    >
+                        {thirdAdmins.length && thirdAdmins.map((admin) => (
                             <option key={admin.id} value={admin.id}>{admin.name}</option>
                         ))}
                     </select>

@@ -51,6 +51,13 @@ function PlaceDetails() {
                         {place.country_name}
                     </span>
 
+                    <span className="inline-flex items-center rounded-full bg-gray-200 px-2.5 py-0.5 text-xs font-medium text-gray-800">
+                        <ClockIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
+                        {place.timezone}
+                    </span>
+                </section>
+
+                <section className="flex flex-row mt-1 sm:flex-wrap space-x-2">
                     {place.admin_1_name && <div className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
                         <HomeIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
                         Admin 1 - {place.admin_1_name}
@@ -70,13 +77,6 @@ function PlaceDetails() {
                         <BuildingLibraryIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
                         Admin 4 - {place.admin_4_name}
                     </div>}
-                </section>
-
-                <section className="flex flex-row mt-1 sm:flex-wrap space-x-2">
-                    <span className="inline-flex items-center rounded-full bg-gray-200 px-2.5 py-0.5 text-xs font-medium text-gray-800">
-                        <ClockIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                        {place.timezone}
-                    </span>
                 </section>
 
                 <section>
