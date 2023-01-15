@@ -20,7 +20,7 @@ function EditMap(props) {
             style: `https://api.maptiler.com/maps/ff2bdd4a-7b41-466d-9c1a-7331ec687f1b/style.json?key=${API_KEY}`,
             center: [Number(props.longitude), Number(props.latitude)],
             zoom: 12,
-            maxZoom: 14
+            maxZoom: 15
         });
 
         map.current.addControl(new maplibregl.NavigationControl(), 'top-right');

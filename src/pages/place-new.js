@@ -200,7 +200,16 @@ function PlaceNew() {
 
         if (response.ok) {
             addNotification('success', 'Your request has been added to the queue. It will be processed as soon as possible.', 10000);
-            setForm(emptyForm);
+            
+            setForm(prevState => {
+                return {
+                    ...prevState,
+                    name: null,
+                    latitude: null,
+                    longitude: null
+                }
+            });
+            
             window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' })
         } else {
             addNotification('error', 'An error occurred. Please try again later.', 5000);

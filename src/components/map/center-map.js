@@ -21,7 +21,7 @@ function CenterMap(props) {
             container: mapContainer.current,
             style: `https://api.maptiler.com/maps/ff2bdd4a-7b41-466d-9c1a-7331ec687f1b/style.json?key=${API_KEY}`,
             bounds: flipLatLng(bounds),
-            maxZoom: 14
+            maxZoom: 15
         });
 
         const center = new maplibregl.LngLatBounds(flipLatLng(bounds)).getCenter();
