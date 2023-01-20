@@ -38,7 +38,7 @@ function Download() {
                             <div className="my-8">
                                 <a href="https://pub-137e15e854754bb99dbe4c683e63670a.r2.dev/placerepo-20230120.zip" className="bg-blue-900 text-white p-4 text-sm font-medium rounded-md no-underline">
                                     <span className="text-sm">Download SQL dump</span>
-                                    <span className="text-xs ml-2">2023-01-20 (20.4mb)</span>
+                                    <span className="text-xs ml-2">2023-01-20 (20.4 MB)</span>
                                 </a>
                             </div>
 
@@ -69,11 +69,21 @@ function Download() {
                                 velit faucibus semper. Pellentesque in venenatis vestibulum consectetur nibh id. In id ut tempus
                                 egestas. Enim sit aliquam nec, a. Morbi enim fermentum lacus in. Viverra.
                             </p>
+
                             <h3>The CSV files</h3>
+
+                            <div className="my-8">
+                                <a href="https://pub-137e15e854754bb99dbe4c683e63670a.r2.dev/placerepo-20230120.csv" className="bg-blue-900 text-white p-4 text-sm font-medium rounded-md no-underline">
+                                        <span className="text-sm">Download CSV file</span>
+                                        <span className="text-xs ml-2">2023-01-20 (9.75 KB)</span>
+                                </a>
+                            </div>
+
                             <p>
                                 The CSV files are an easy way to get started with Placerepo. They where made with the intention of
                                 being imported into a searchengine tool like Meilisearch or Typesense.
                             </p>
+                            
                             <p>
                                 These files have a slightly different datamodel than the SQL dump. The continent, country and administrative areas are the meta data for the populated places.
                             </p>
