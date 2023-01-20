@@ -1,4 +1,5 @@
 import {
+    ArrowDownTrayIcon,
     ClipboardDocumentListIcon,
     GlobeAmericasIcon,
     HomeIcon,
@@ -103,6 +104,10 @@ function Sidebar() {
                                                 {item.name}
                                             </NavLink>
                                         ))}
+
+                                        <NavLink to={'/download'}>
+                                            Download dataset
+                                        </NavLink>
                                     </nav>
                                 </div>
                             </Dialog.Panel>
@@ -148,6 +153,14 @@ function Sidebar() {
                                     {item.name}
                                 </NavLink>
                             ))}
+
+                            <NavLink to={'/download'} className="bg-blue-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                                <ArrowDownTrayIcon
+                                    className="text-gray-400 group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
+                                    aria-hidden="true"
+                                />
+                                Download dataset
+                            </NavLink>
                         </nav>
                     </div>
                 </div>
