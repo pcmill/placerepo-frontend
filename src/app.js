@@ -19,6 +19,7 @@ import Logout from "./pages/logout";
 import QueueWrapper from "./pages/queue-wrapper";
 import QueueList from "./pages/queue-list";
 import Download from "./pages/download";
+import NotFound from "./pages/not-found";
 
 const router = createBrowserRouter([
   {
@@ -110,6 +111,10 @@ const router = createBrowserRouter([
             element: <PlaceEditMap />
           }
         ]
+      },
+      {
+        path: '*',
+        element: <NotFound />
       }
     ]
   }
