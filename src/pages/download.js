@@ -1,7 +1,32 @@
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
+import { useEffect, useState } from "react";
 import PageLayout from "../components/page-layout";
 
 function Download() {
+    const [sql, setSQL] = useState(null);
+    const [csv, setCSV] = useState(null);
+
+    useEffect(() => {
+        const fetchDownload = async () => {
+            const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/download`);
+
+            const c = await data.json();
+
+            const csv = c.find((item) => item.type === 0);
+            const sql = c.find((item) => item.type === 1);
+
+            if (csv) {
+                setCSV(csv);
+            }
+
+            if (sql) {
+                setSQL(sql);
+            }
+        }
+
+        fetchDownload();
+    }, []);
+
     return (
         <PageLayout>
             <div className="relative bg-white px-6 pt-12 pb-16 sm:pt-16 lg:mx-auto lg:grid lg:max-w-7xl lg:px-8">
@@ -35,12 +60,12 @@ function Download() {
                         <div className="prose prose-indigo mt-5 text-gray-500">
                             <h3>The SQL dump</h3>
 
-                            <div className="my-8">
-                                <a href="https://pub-137e15e854754bb99dbe4c683e63670a.r2.dev/placerepo-20230120.zip" className="bg-blue-900 text-white p-4 text-sm font-medium rounded-md no-underline">
+                            {sql && <div className="my-8">
+                                <a href={sql.url} className="bg-blue-900 text-white p-4 text-sm font-medium rounded-md no-underline">
                                     <span className="text-sm">Download SQL dump</span>
-                                    <span className="text-xs ml-2">2023-01-20 (20.4 MB)</span>
+                                    <span className="text-xs ml-2">{sql.name} ({sql.size_text})</span>
                                 </a>
-                            </div>
+                            </div>}
 
                             <p>
                                 The SQL dump can be used to kickstart your own geodata project. It follows the datamodel that you can find here: <a href="https://github.com/pcmill/placerepo/blob/main/database.sql">datamodel</a>
@@ -72,18 +97,18 @@ function Download() {
 
                             <h3>The CSV files</h3>
 
-                            <div className="my-8">
-                                <a href="https://pub-137e15e854754bb99dbe4c683e63670a.r2.dev/placerepo-20230120.csv" className="bg-blue-900 text-white p-4 text-sm font-medium rounded-md no-underline">
+                            {csv && <div className="my-8">
+                                <a href={csv.url} className="bg-blue-900 text-white p-4 text-sm font-medium rounded-md no-underline">
                                         <span className="text-sm">Download CSV file</span>
-                                        <span className="text-xs ml-2">2023-01-20 (9.75 KB)</span>
+                                        <span className="text-xs ml-2">{csv.name} ({csv.size_text})</span>
                                 </a>
-                            </div>
+                            </div>}
 
                             <p>
                                 The CSV files are an easy way to get started with Placerepo. They where made with the intention of
                                 being imported into a searchengine tool like Meilisearch or Typesense.
                             </p>
-                            
+
                             <p>
                                 These files have a slightly different datamodel than the SQL dump. The continent, country and administrative areas are the meta data for the populated places.
                             </p>
