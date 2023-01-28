@@ -26,6 +26,7 @@ function PlaceNew() {
     const [selectFirstAdmin, setSelectFirstAdmin] = useState(null);
     const [selectSecondAdmin, setSelectSecondAdmin] = useState(null);
     const [selectThirdAdmin, setSelectThirdAdmin] = useState(null);
+    const [polygons, setPolygons] = useState({});
     const { user, accessToken } = useContext(AuthContext);
     const { addNotification } = useContext(NotificationContext);
 
@@ -98,10 +99,10 @@ function PlaceNew() {
                 const c = await fetch(`${process.env.REACT_APP_BACKEND}/v1/admin/country/${form.country_id}`);
                 const json = await c.json();
     
-                setFirstAdmins(json);
+                setFirstAdmins(json.admins);
 
-                if (json.length > 0) {
-                    setSelectFirstAdmin(json[0].id);
+                if (json.admins.length > 0) {
+                    setSelectFirstAdmin(json.admins[0].id);
                 } else {
                     setSelectFirstAdmin(null);
                 }
@@ -118,10 +119,20 @@ function PlaceNew() {
                 const c = await fetch(`${process.env.REACT_APP_BACKEND}/v1/admin/list/${selectFirstAdmin}`);
                 const json = await c.json();
     
-                setSecondAdmins(json);
+                const polyCopy = {...polygons};
+                polyCopy.firstAdmin = {
+                    admin_id: selectFirstAdmin,
+                    label: json.details.label,
+                    polygon: json.details.polygon,
+                    polygon_type: json.details.polygon_type,
+                    color: 'lightgray'
+                };
 
-                if (json.length > 0) {
-                    setSelectSecondAdmin(json[0].id);
+                setPolygons(polyCopy);
+                setSecondAdmins(json.admins);
+
+                if (json.admins.length > 0) {
+                    setSelectSecondAdmin(json.admins[0].id);
                 } else {
                     setSelectSecondAdmin(null);
                 }
@@ -139,7 +150,17 @@ function PlaceNew() {
                 const c = await fetch(`${process.env.REACT_APP_BACKEND}/v1/admin/list/${selectSecondAdmin}`);
                 const json = await c.json();
     
-                setThirdAdmins(json);
+                const polyCopy = {...polygons};
+                polyCopy.secondAdmin = {
+                    admin_id: selectSecondAdmin,
+                    label: json.details.label,
+                    polygon: json.details.polygon,
+                    polygon_type: json.details.polygon_type,
+                    color: 'blue'
+                };
+
+                setPolygons(polyCopy);
+                setThirdAdmins(json.admins);
 
                 if (json.length > 0) {
                     setSelectThirdAdmin(json[0].id);
@@ -199,7 +220,7 @@ function PlaceNew() {
         await response.json();
 
         if (response.ok) {
-            addNotification('success', 'Your request has been added to the queue. It will be processed as soon as possible.', 10000);
+            addNotification('success', 'Your request has been added to the queue. It will be processed as soon as possible.', 7500);
             
             setForm(prevState => {
                 return {
@@ -329,7 +350,9 @@ function PlaceNew() {
 
                     <p className="mb-2 text-xs text-gray-500">Drag the marker to where the visual center of the place is.</p>
 
-                    <CenterMap newLatLng={(latlng) => setLatLng(latlng)} />
+                    <CenterMap
+                        polygons={polygons}
+                        newLatLng={(latlng) => setLatLng(latlng)} />
 
                     {form.latitude && form.longitude && <div className="mt-2 flex items-center text-xs relative">
                         <span className="text-gray-700">Latitude:</span> 
