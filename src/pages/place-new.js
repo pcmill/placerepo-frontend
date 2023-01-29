@@ -118,17 +118,19 @@ function PlaceNew() {
             const fetchSecondAdmin = async () => {
                 const c = await fetch(`${process.env.REACT_APP_BACKEND}/v1/admin/list/${selectFirstAdmin}`);
                 const json = await c.json();
-    
-                const polyCopy = {...polygons};
-                polyCopy.firstAdmin = {
-                    admin_id: selectFirstAdmin,
-                    label: json.details.label,
-                    polygon: json.details.polygon,
-                    polygon_type: json.details.polygon_type,
-                    color: 'lightgray'
-                };
 
-                setPolygons(polyCopy);
+                setPolygons((prevState) => {
+                    return {
+                        ...prevState,
+                        firstAdmin: {
+                            label: json.details.label,
+                            polygon: json.details.polygon,
+                            polygon_type: json.details.polygon_type,
+                            color: '#0571b0'
+                        }
+                    }
+                });
+
                 setSecondAdmins(json.admins);
 
                 if (json.admins.length > 0) {
@@ -149,17 +151,19 @@ function PlaceNew() {
             const fetchThirdAdmin = async () => {
                 const c = await fetch(`${process.env.REACT_APP_BACKEND}/v1/admin/list/${selectSecondAdmin}`);
                 const json = await c.json();
-    
-                const polyCopy = {...polygons};
-                polyCopy.secondAdmin = {
-                    admin_id: selectSecondAdmin,
-                    label: json.details.label,
-                    polygon: json.details.polygon,
-                    polygon_type: json.details.polygon_type,
-                    color: 'blue'
-                };
 
-                setPolygons(polyCopy);
+                setPolygons((prevState) => {
+                    return {
+                        ...prevState,
+                        secondAdmin: {
+                            label: json.details.label,
+                            polygon: json.details.polygon,
+                            polygon_type: json.details.polygon_type,
+                            color: '#92c5de'
+                        }
+                    }
+                });
+                
                 setThirdAdmins(json.admins);
 
                 if (json.length > 0) {
@@ -290,8 +294,12 @@ function PlaceNew() {
                 </section>
 
                 {showFirstAdmin() && <section className="mt-4">
-                    <label htmlFor="location" className="block text-md font-medium text-gray-700">
+                    <label htmlFor="location" className="flex items-center block text-md font-medium text-gray-700">
                         Top level admin
+
+                        <svg className="ml-2 h-4 w-4" fill="#0571b0" viewBox="0 0 16 16">
+                            <circle cx={8} cy={8} r={8} />
+                        </svg>
                     </label>
 
                     <select
@@ -308,8 +316,12 @@ function PlaceNew() {
                 </section>}
 
                 {showSecondAdmin() && <section className="mt-4">
-                    <label htmlFor="location" className="block text-md font-medium text-gray-700">
+                    <label htmlFor="location" className="flex items-center block text-md font-medium text-gray-700">
                         Second level admin
+
+                        <svg className="ml-2 h-4 w-4" fill="#92c5de" viewBox="0 0 16 16">
+                            <circle cx={8} cy={8} r={8} />
+                        </svg>
                     </label>
 
                     <select
