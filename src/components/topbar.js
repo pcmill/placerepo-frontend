@@ -1,4 +1,4 @@
-import { Fragment, useContext } from 'react';
+import { Fragment, useCallback, useContext, useEffect, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import {
     Bars3BottomLeftIcon
@@ -8,6 +8,8 @@ import { SidebarContext } from '../contexts/sidebar-context';
 import { AuthContext } from '../contexts/auth-context';
 import { getGitHubUrl } from '../util/auth';
 import { Link } from 'react-router-dom';
+import { debounce } from 'lodash';
+import useComponentVisible from './click-outside';
 
 const userNavigation = [
     { name: 'Sign out', to: '/logout' }
@@ -20,6 +22,62 @@ function classNames(...classes) {
 function Topbar() {
     const { changeSidebarState } = useContext(SidebarContext);
     const { user, accessToken } = useContext(AuthContext);
+    const [searchResults, setSearchResults] = useState([]);
+    const [searchFocus, setSearchFocus] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [query, setQuery] = useState('');
+    const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(false);
+
+    async function search(query) {
+        const res = await fetch(`${process.env.REACT_APP_MEILI_ENDPOINT}/indexes/geo/search`, {
+            method: 'POST',
+            body: JSON.stringify({
+                q: query,
+                limit: 6
+            }),
+            headers: {
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${process.env.REACT_APP_MEILI_KEY}`
+            }
+        });
+    
+        if (res.ok) {
+            const data = await res.json();
+            setMenuOpen(true);
+            setIsComponentVisible(true);
+            setSearchResults(data.hits);
+        } else {
+            setSearchResults([]);
+        }
+    }
+
+    // eslint-disable-next-line
+    const debouncedSearch = useCallback(
+        debounce(search, 200)
+    , []);
+
+    function clearSearch() {
+        setQuery('');
+        setSearchResults([]);
+        setMenuOpen(false);
+        setIsComponentVisible(false);
+    }
+
+    useEffect(() => {
+        if (query.length > 1) {
+            debouncedSearch(query);
+        }
+    }, [query, debouncedSearch]); 
+
+    useEffect(() => {
+        console.log('isComponentVisible', isComponentVisible);
+        if (searchFocus) {
+            setIsComponentVisible(true);
+            setMenuOpen(true);
+        } else {
+            setMenuOpen(isComponentVisible && searchResults.length > 0);
+        }
+    }, [isComponentVisible, searchResults, searchFocus]);
 
     return (
         <>
@@ -51,6 +109,10 @@ function Topbar() {
                                     placeholder="Search"
                                     type="search"
                                     name="search"
+                                    value={query || ''}
+                                    onBlur={() => setSearchFocus(false)}
+                                    onFocus={() => setSearchFocus(true)}
+                                    onChange={(e) => setQuery(e.target.value)}
                                 />
                             </div>
                         </form>
@@ -105,6 +167,24 @@ function Topbar() {
                         </Menu>}
                     </div>
                 </div>
+
+                <div ref={ref}>
+                    {menuOpen && <div className="absolute top-16 left-4 right-4 bg-white shadow-lg rounded-b-lg border-t">
+                        <ul className="max-w-7xl mx-auto divide-y divide-gray-200">
+                            {searchResults.map((result) => (
+                                <li key={result.id} className="px-4 py-4 sm:px-6">
+                                    <Link onClick={() => clearSearch()} to={`/place/${result['entity-id']}`} className="group relative">
+                                        <div className="w-full overflow-hidden group-hover:opacity-75">
+                                            <span className="underline">{result.name}</span>
+                                            <span className="ml-2 inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">{result['admin-1']}</span>
+                                            <span className="ml-2 inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">{result['country']}</span>
+                                        </div>
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>}
+                </div>      
             </div>
         </>
     )

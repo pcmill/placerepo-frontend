@@ -59,6 +59,14 @@ function DetailMap(props) {
     }, [map, props.latitude, props.longitude, props.name]);
 
     useEffect(() => {
+        if (map.current) {
+            map.current.flyTo({
+                center: [Number(props.longitude), Number(props.latitude)],
+            });
+        }
+    }, [map, props.latitude, props.longitude]);
+
+    useEffect(() => {
         if (map.current && props.polygon) {
             const data = JSON.parse(props.polygon);
 
