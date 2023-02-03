@@ -173,11 +173,11 @@ function Topbar() {
                         <ul className="max-w-7xl mx-auto divide-y divide-gray-200">
                             {searchResults.map((result) => (
                                 <li key={result.id} className="px-4 py-4 sm:px-6">
-                                    <Link onClick={() => clearSearch()} to={`/place/${result['entity-id']}`} className="group relative">
+                                    <Link onClick={() => clearSearch()} to={`/place/${result.entity_id}`} className="group relative">
                                         <div className="w-full overflow-hidden group-hover:opacity-75">
                                             <span className="underline">{result.name}</span>
-                                            <span className="ml-2 inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">{result['admin-1']}</span>
-                                            <span className="ml-2 inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">{result['country']}</span>
+                                            <span className="ml-2 inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">{result.admin_1}</span>
+                                            <span className="ml-2 inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">{result.country}</span>
                                         </div>
                                     </Link>
                                 </li>
