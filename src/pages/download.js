@@ -89,11 +89,6 @@ function Download() {
                             <p>
                                 These entities all have their respective translations.
                             </p>
-                            <p>
-                                Rhoncus nisl, libero egestas diam fermentum dui. At quis tincidunt vel ultricies. Vulputate aliquet
-                                velit faucibus semper. Pellentesque in venenatis vestibulum consectetur nibh id. In id ut tempus
-                                egestas. Enim sit aliquam nec, a. Morbi enim fermentum lacus in. Viverra.
-                            </p>
 
                             <h3>The CSV files</h3>
 
