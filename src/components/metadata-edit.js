@@ -20,7 +20,7 @@ function MetadataEdit(props) {
             }
         }
 
-        await fetch(`${process.env.REACT_APP_BACKEND}/v1/queue`, {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND}/v1/queue`, {
             method: 'POST',
             body: JSON.stringify(body),
             headers: {
@@ -28,6 +28,16 @@ function MetadataEdit(props) {
                 'x-access-token': accessToken
             }
         });
+
+        if (res.ok) {
+            addNotification('success', 'Your data change has been added to the queue. It will be processed as soon as possible.', 8000);
+
+            props.setEntity({
+                wikidata_id: place.wikidata_id
+            });
+        } else {
+            addNotification('error', 'There was a problem saving your change. Please try again later.', 5000);
+        }
     }
 
     async function savePopulation(event) {
@@ -55,7 +65,13 @@ function MetadataEdit(props) {
         });
 
         if (res.ok) {
-            addNotification('success', 'Your data change has been added to the queue. It will be processed as soon as possible.', 10000);
+            addNotification('success', 'Your data change has been added to the queue. It will be processed as soon as possible.', 8000);
+
+            props.setEntity({
+                population: place.population,
+                population_approximate: place.population_approximate,
+                population_record_year: place.population_record_year
+            });
         } else {
             addNotification('error', 'There was a problem saving your change. Please try again later.', 5000);
         }
