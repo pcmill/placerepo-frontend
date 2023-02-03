@@ -75,7 +75,7 @@ function HomeMap() {
                         .setPopup(new maplibregl.Popup({
                             closeButton: false
                         }).setHTML(
-                            `<a href="/place/${place.id}" class="text-gray-600 text-lg">${place.name}</a>`
+                            `<a href="/place/${place.id}" class="text-gray-600 text-lg underline">${place.name}</a>`
                         ))
                         .addTo(map.current);
 
