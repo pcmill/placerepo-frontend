@@ -9,7 +9,7 @@ function AdminList(props) {
             const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/admin/country/${props.countryId}`);
 
             const a = await data.json();
-            setAdmins(a);
+            setAdmins(a.admins);
         }
 
         fetchAdmins();
