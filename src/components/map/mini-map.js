@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import '../../style/map.css';
@@ -7,16 +7,37 @@ import Marker from "../marker";
 function MiniMap(props) {
     const mapContainer = useRef(null);
     const map = useRef(null);
-    const [API_KEY] = useState('dyK35oSh2RzcM1TQJdy8');
 
     useEffect(() => {
         if (map.current) return;
 
         map.current = new maplibregl.Map({
             container: mapContainer.current,
-            style: `https://api.maptiler.com/maps/ff2bdd4a-7b41-466d-9c1a-7331ec687f1b/style.json?key=${API_KEY}`,
+            style: {
+                "version": 8,
+                "sources": {
+                    "raster-tiles": {
+                        "type": "raster",
+                        "tiles": [
+                            process.env.REACT_APP_TILE_URL
+                        ],
+                        "tileSize": 256,
+                        "attribution": `© ${new Date().getFullYear()} TomTom`
+                    },
+                },
+                'layers': [
+                    {
+                        'id': 'simple-tiles',
+                        'type': 'raster',
+                        'source': 'raster-tiles',
+                        'minzoom': 0,
+                        'maxzoom': 16
+                    }
+                ]
+            },
             center: [props.longitude, props.latitude],
-            zoom: 12
+            zoom: 12,
+            maxZoom: 14
         });
 
         new maplibregl.Marker({
@@ -24,7 +45,7 @@ function MiniMap(props) {
         }).setLngLat([props.longitude, props.latitude]).addTo(map.current);
 
         map.current.addControl(new maplibregl.NavigationControl(), 'top-right');
-    }, [API_KEY, props]);
+    }, [props]);
 
     useEffect(() => {
         if (map.current) {

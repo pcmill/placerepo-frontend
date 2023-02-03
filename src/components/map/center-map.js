@@ -8,7 +8,6 @@ import Marker from "../marker";
 function CenterMap(props) {
     const mapContainer = useRef(null);
     const map = useRef(null);
-    const [API_KEY] = useState('dyK35oSh2RzcM1TQJdy8');
 
     const defaultBounds = [[53.418, 5.05], [52.734, 4.479]];
     const previousBounds = JSON.parse(localStorage.getItem('bounds'));
@@ -19,7 +18,28 @@ function CenterMap(props) {
 
         map.current = new maplibregl.Map({
             container: mapContainer.current,
-            style: `https://api.maptiler.com/maps/ff2bdd4a-7b41-466d-9c1a-7331ec687f1b/style.json?key=${API_KEY}`,
+            style: {
+                "version": 8,
+                "sources": {
+                    "raster-tiles": {
+                        "type": "raster",
+                        "tiles": [
+                            process.env.REACT_APP_TILE_URL
+                        ],
+                        "tileSize": 256,
+                        "attribution": `© ${new Date().getFullYear()} TomTom`
+                    },
+                },
+                'layers': [
+                    {
+                        'id': 'simple-tiles',
+                        'type': 'raster',
+                        'source': 'raster-tiles',
+                        'minzoom': 0,
+                        'maxzoom': 17
+                    }
+                ]
+            },
             bounds: flipLatLng(bounds),
             maxZoom: 15
         });
@@ -56,7 +76,7 @@ function CenterMap(props) {
             const cBounds = convertBounds(bounds);
             localStorage.setItem('bounds', JSON.stringify(cBounds));
         });
-    }, [bounds, API_KEY, props]);
+    }, [bounds, props]);
 
     useEffect(() => {
         if (map.current && props.polygons) {

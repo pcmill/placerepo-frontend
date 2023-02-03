@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import maplibregl from 'maplibre-gl';
 import mapboxGlDraw from "@mapbox/mapbox-gl-draw";
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -10,14 +10,34 @@ function EditMap(props) {
     const mapContainer = useRef(null);
     const map = useRef(null);
     const marker = useRef(null);
-    const [API_KEY] = useState('dyK35oSh2RzcM1TQJdy8');
 
     useEffect(() => {
         if (map.current) return;
 
         map.current = new maplibregl.Map({
             container: mapContainer.current,
-            style: `https://api.maptiler.com/maps/ff2bdd4a-7b41-466d-9c1a-7331ec687f1b/style.json?key=${API_KEY}`,
+            style: {
+                "version": 8,
+                "sources": {
+                    "raster-tiles": {
+                        "type": "raster",
+                        "tiles": [
+                            process.env.REACT_APP_TILE_URL
+                        ],
+                        "tileSize": 256,
+                        "attribution": `© ${new Date().getFullYear()} TomTom`
+                    },
+                },
+                'layers': [
+                    {
+                        'id': 'simple-tiles',
+                        'type': 'raster',
+                        'source': 'raster-tiles',
+                        'minzoom': 0,
+                        'maxzoom': 17
+                    }
+                ]
+            },
             center: [Number(props.longitude), Number(props.latitude)],
             zoom: 12,
             maxZoom: 15
@@ -75,7 +95,7 @@ function EditMap(props) {
                 draw.delete(pids);
             }
         });
-    }, [API_KEY, props, props.latitude, props.longitude]);
+    }, [props, props.latitude, props.longitude]);
 
     useEffect(() => {
         if (props.latitude && props.longitude) {
