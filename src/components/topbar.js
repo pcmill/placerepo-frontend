@@ -70,7 +70,6 @@ function Topbar() {
     }, [query, debouncedSearch]); 
 
     useEffect(() => {
-        console.log('isComponentVisible', isComponentVisible);
         if (searchFocus) {
             setIsComponentVisible(true);
             setMenuOpen(true);
