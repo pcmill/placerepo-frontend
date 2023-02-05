@@ -4,10 +4,13 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import '../../style/map.css';
 import { convertBounds, flipLatLng } from "../../util/bounds";
 import Marker from "../marker";
+import { fetchPlaces, setPolygon } from "../../util/map";
 
 function CenterMap(props) {
     const mapContainer = useRef(null);
     const map = useRef(null);
+    const [places, setPlaces] = useState(null);
+    const [placeMarkers, setPlaceMarkers] = useState([]);
 
     const defaultBounds = [[53.418, 5.05], [52.734, 4.479]];
     const previousBounds = JSON.parse(localStorage.getItem('bounds'));
@@ -71,15 +74,56 @@ function CenterMap(props) {
 
         marker.on('dragend', onDragEnd);
 
+        map.current.on('load', async () => {
+            const bounds = map.current.getBounds();
+            const cBounds = convertBounds(bounds);
+            await fetchPlaces(cBounds, setPlaces);
+        });
+
         map.current.on('moveend', async () => {
             const bounds = map.current.getBounds();
             const cBounds = convertBounds(bounds);
+            await fetchPlaces(cBounds, setPlaces);
+
             localStorage.setItem('bounds', JSON.stringify(cBounds));
         });
     }, [bounds, props]);
 
     useEffect(() => {
-        if (map.current && props.polygons) {
+        if (map.current) {
+            if (places && places.length > 0) {
+                for (const place of places) {
+                    const result = placeMarkers.find((p) => p.id === place.id);
+    
+                    if (result === undefined) {
+                        new maplibregl.Marker({
+                            element: Marker(20, 20, 'marker-gray')
+                        })
+                            .setLngLat([Number(place.longitude), Number(place.latitude)])
+                            .setPopup(new maplibregl.Popup({
+                                closeButton: false
+                            }).setHTML(
+                                `<span class="text-gray-600 text-lg">${place.name}</span>`
+                            ))
+                            .addTo(map.current);
+    
+                        if (place.polygon) {
+                            setPolygon(map, place.polygon, place.id);
+                        }
+    
+                        setPlaceMarkers((prev) => [...prev, {
+                            id: place.id,
+                            polygon: (place.polygon !== undefined)
+                        }]);
+                    }
+    
+                    if (result && !result.polygon && place.polygon) {
+                        setPolygon(map, place.polygon, place.id);
+                        result.polygon = true;
+                    }
+                }
+            }
+
             for (const [key, value] of Object.entries(props.polygons)) {
                 if (key && value.polygon) {
                     const data = JSON.parse(value.polygon);
@@ -131,7 +175,7 @@ function CenterMap(props) {
                 }
             }
         }
-    }, [props.polygons]);
+    }, [props.polygons, places, placeMarkers]);
 
     function removePolygons(map, key) {
         if (map.current.getLayer(`polygon-${key}`)) {

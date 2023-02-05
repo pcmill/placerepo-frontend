@@ -36,7 +36,15 @@
     background-color: #4f46e5;
 }
 
-.marker:hover {
+.marker-gray {
+    border-radius: 50%;
+    border: 1px solid white;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: #b8b8b8;
+}
+
+.marker:hover,
+.marker-gray:hover {
     cursor: pointer;
     filter: brightness(1.1);
     border: 2px solid white;

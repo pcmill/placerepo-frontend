@@ -3,6 +3,7 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import '../../style/map.css';
 import { convertBounds, flipLatLng } from "../../util/bounds";
+import { fetchPlaces, setPolygon } from "../../util/map";
 import Marker from "../marker";
 
 function HomeMap() {
@@ -80,7 +81,7 @@ function HomeMap() {
                         .addTo(map.current);
 
                     if (place.polygon) {
-                        setPolygon(map, place);
+                        setPolygon(map, place.polygon, place.id);
                     }
 
                     setPlaceMarkers((prev) => [...prev, {
@@ -90,7 +91,7 @@ function HomeMap() {
                 }
 
                 if (result && !result.polygon && place.polygon) {
-                    setPolygon(map, place);
+                    setPolygon(map, place.polygon, place.id);
                     result.polygon = true;
                 }
             }
@@ -102,56 +103,6 @@ function HomeMap() {
             <div ref={mapContainer} className="map" />
         </div>
     )
-}
-
-async function fetchPlaces(currentBounds, setPlaces) {
-    const body = JSON.stringify({
-        "boundingbox": currentBounds
-    });
-
-    const data = await fetch(`${process.env.REACT_APP_BACKEND}/v1/place/boundingbox`, {
-        method: 'POST',
-        body: body,
-        headers: {
-            'content-type': 'application/json',
-        }
-    });
-
-    const p = await data.json();
-
-    if (p) {
-        setPlaces(p.places);
-    }
-}
-
-function setPolygon(map, place) {
-    if (place.polygon) {
-        const data = JSON.parse(place.polygon);
-    
-        map.current.addSource(`polygon-${place.id}`, {
-            'type': 'geojson',
-            'data': {
-                'type': 'Feature',
-                'geometry': {
-                    'type': 'Polygon',
-                    'coordinates': [
-                        data
-                    ]
-                }
-            }
-        });
-    
-        map.current.addLayer({
-            'id': `polygon-${place.id}`,
-            'type': 'fill',
-            'source': `polygon-${place.id}`,
-            'layout': {},
-            'paint': {
-                'fill-color': '#D3D3D3',
-                'fill-opacity': 0.35
-            }
-        });
-    }
 }
 
 export default HomeMap;
